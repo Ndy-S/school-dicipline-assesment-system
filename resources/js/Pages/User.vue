@@ -2,7 +2,6 @@
     <div class="flex">
         <Nav/>
         <div class="flex-1">
-            
         </div>
     </div>
 
@@ -12,4 +11,3 @@
     import Nav from '../Shared/Nav.vue';
 
 </script>
-

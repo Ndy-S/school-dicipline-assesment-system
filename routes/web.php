@@ -15,3 +15,5 @@ use Inertia\Inertia;
 */
 
 Route::get('/', fn () => Inertia::render('Dashboard'));
+Route::get('home', fn () => Inertia::render('Dashboard'));
+Route::get('user', fn () => Inertia::render('User'));

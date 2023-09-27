@@ -13,10 +13,16 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('token')->unique();
             $table->string('password');
+            $table->enum('role', [0, 1, 2, 3]);
+            // Catatan!
+            // 0: Admin,
+            // 1: Siswa/Ortu,
+            // 2: Guru,
+            // 3: Kepala Sekolah
+            $table->string('name');
+            $table->string('image_path')->deafult('default.webp');
             $table->rememberToken();
             $table->timestamps();
         });

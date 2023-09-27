@@ -1,5 +1,12 @@
 import { createApp, h } from 'vue'
-import { createInertiaApp } from '@inertiajs/vue3'
+import { createInertiaApp, Link } from '@inertiajs/vue3'
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faUserSecret, faChartLine, faIdCardClip, faUser, faPersonWalkingArrowRight} from '@fortawesome/free-solid-svg-icons'
+
+
+library.add(faUserSecret, faChartLine, faIdCardClip, faUser, faPersonWalkingArrowRight)
 
 createInertiaApp({
     resolve: name => {
@@ -9,6 +16,8 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
+            .component("Link", Link)
+            .component('font-awesome-icon', FontAwesomeIcon)
             .mount(el)
     },
 })
