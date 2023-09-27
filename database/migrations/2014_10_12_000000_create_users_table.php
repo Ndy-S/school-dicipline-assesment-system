@@ -21,9 +21,8 @@ return new class extends Migration
             // 1: Siswa/Ortu,
             // 2: Guru,
             // 3: Kepala Sekolah
-            $table->string('name');
+            $table->string('nama');
             $table->string('image_path')->deafult('default.webp');
-            $table->rememberToken();
             $table->timestamps();
         });
     }

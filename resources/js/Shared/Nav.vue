@@ -56,15 +56,6 @@
             </span>
         </div>
     </nav>
-    <div class="bg-neon-custom-color h-fit p-4 mx-10 rounded-lg">
-        <marquee class="text-yellow-500 font-bold uppercase text-lg font-mono" direction="right">
-            <span class="flex items-center">
-                <span class="mr-4">Sistem Kehadiran dan Kedisiplinan Siswa</span>
-                <img src="https://i.pinimg.com/originals/05/1a/b4/051ab4711df54275e98341d84ac68ed6.gif" class="w-8" alt="Animated Image">
-            </span>
-        </marquee>
-
-    </div>
 </template>
 
 <script setup>

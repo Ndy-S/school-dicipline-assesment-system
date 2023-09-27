@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,6 @@ use Inertia\Inertia;
 
 Route::get('/', fn () => Inertia::render('Dashboard'));
 Route::get('home', fn () => Inertia::render('Dashboard'));
-Route::get('user', fn () => Inertia::render('User'));
+
+
+Route::get('user', [UserController::class, 'index']);

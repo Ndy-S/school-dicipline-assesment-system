@@ -8,9 +8,8 @@ export default {
     theme: {
         extend: {
             backgroundColor: {
-                'light-custom-color': '#F3F4F6',
-                'dark-custom-color': '#0E0E0E',
-                'neon-custom-color': '#1B1730',
+                'dark-custom-color': '#181f2e',
+                'neon-custom-color': '#2c334e',
             },
         },
     },
