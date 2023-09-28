@@ -3,10 +3,10 @@ import { createInertiaApp, Link } from '@inertiajs/vue3'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faUserSecret, faChartLine, faIdCardClip, faUser, faPersonWalkingArrowRight, faCirclePlus, faPenClip, faTrashCan, faPeopleRoof} from '@fortawesome/free-solid-svg-icons'
+import { faUserSecret, faChartLine, faIdCardClip, faUser, faPersonWalkingArrowRight, faCirclePlus, faPenClip, faTrashCan, faPeopleRoof, faArrowUpAZ, faArrowDownZA, faXmark, faCircleExclamation, faCircleCheck, faToolbox } from '@fortawesome/free-solid-svg-icons'
 
 
-library.add(faUserSecret, faChartLine, faIdCardClip, faUser, faPersonWalkingArrowRight, faCirclePlus, faPenClip, faTrashCan, faPeopleRoof)
+library.add(faUserSecret, faChartLine, faIdCardClip, faUser, faPersonWalkingArrowRight, faCirclePlus, faPenClip, faTrashCan, faPeopleRoof, faArrowUpAZ, faArrowDownZA, faXmark, faCircleExclamation, faCircleCheck, faToolbox)
 
 createInertiaApp({
     resolve: name => {

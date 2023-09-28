@@ -10,7 +10,18 @@
                             v-for="(oneTableHead, index) in tableHead"
                             :key="index"
                         >
-                            {{ oneTableHead }}
+                            <span 
+                                class="inline-flex w-full justify-between" 
+                                @click="sort(oneTableHead)"
+                                v-if="oneTableHead === 'nama' || oneTableHead === 'peran'"
+                            >
+                                {{ oneTableHead }}
+                                <font-awesome-icon :icon="['fas', 'arrow-up-a-z']" v-if="params.field === oneTableHead && params.direction === 'asc'"/>
+                                <font-awesome-icon :icon="['fas', 'arrow-down-z-a']" v-if="params.field === oneTableHead && params.direction === 'desc'"/>
+                            </span>
+                            <span v-else>
+                                {{ oneTableHead }}
+                            </span>
                         </th>
                     </tr>
                 </thead>
@@ -32,22 +43,16 @@
                                 >
                                 <!-- :src="oneTableData['image_path']"  -->
                                 <span v-if="oneTableHead === 'aksi'">
-                                    <button title="Edit">
+                                    <button title="Ubah">
                                         <font-awesome-icon :icon="['fas', 'pen-clip']" style="color: paleturquoise;"/>
                                     </button>
                                     &nbsp;
-                                    <button title="Delete">
+                                    <button title="Hapus" @click="deleteFunc(oneTableData)">
                                         <font-awesome-icon :icon="['fas', 'trash-can']" style="color: darkorange;"/>
                                     </button>
                                 </span>
-                                <span v-else-if="oneTableHead === 'role'">
-                                    {{ 
-                                        oneTableData[oneTableHead] == 0 ? 'Admin' :
-                                        oneTableData[oneTableHead] == 1 ? 'Siswa/Ortu' :
-                                        oneTableData[oneTableHead] == 2 ? 'Guru' :
-                                        oneTableData[oneTableHead] == 3 ? 'Kepala Sekolah' :
-                                        'Unknown Role'
-                                    }}
+                                <span v-else-if="oneTableHead === 'tanggal dibuat'">
+                                    {{ formatDate(oneTableData['created_at']) }}
                                 </span>
                                 <span v-else class="flex">{{ oneTableData[oneTableHead] }}</span>
                             </div>
@@ -57,7 +62,7 @@
                 </tbody>
             </table>
 
-            <div class="flex flex-wrap justify-center mt-8" v-show="tablePaginate.links.length > 3">
+            <div class="flex flex-wrap justify-center mt-2" v-show="tablePaginate.links.length > 3">
                 <template v-for="(link, key) in tablePaginate.links" :key="key">
                     <div 
                         v-if="link.url === null" 
@@ -81,9 +86,25 @@
 </template>
 
 <script setup>
+    import { format } from 'date-fns';
+    import { id } from 'date-fns/locale';
+
     const props = defineProps({
         tableHead: Array,
-        tableData: Object,
-        tablePaginate: Object
+        tablePaginate: Object,
+        tableFilters: Object,
+        params: Object,
+        deleteFunc: Function,
     });
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const dateFormat = "dd MMMM yyyy";
+        return format(date, dateFormat, { locale: id });
+    };
+
+    const sort = (field) => {
+        props.params.field = field;
+        props.params.direction = props.params.direction === 'asc' ? 'desc' : 'asc';
+    };
 </script>

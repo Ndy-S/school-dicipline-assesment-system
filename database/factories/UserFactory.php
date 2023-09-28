@@ -22,12 +22,12 @@ class UserFactory extends Factory
         for ($i = 0; $i < 4; $i++) {
             $token .= $characters[rand(0, strlen($characters) - 1)];
         }
-        $roles = ['0', '1', '2', '3'];
+        $roles = ['Admin', 'Guru', 'Orang Tua', 'Kepala Sekolah'];
 
         return [
             'token' => $token,
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-            'role' => $roles[array_rand($roles)],
+            'peran' => $roles[array_rand($roles)],
             'nama' => fake()->name(),
             'image_path' => 'path/to/random/image.jpg',
         ];
