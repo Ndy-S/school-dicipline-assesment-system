@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('peran', ['Admin', 'Guru', 'Orang Tua', 'Kepala Sekolah']);
             $table->string('nama');
-            $table->string('image_path')->deafult('default.webp');
+            $table->string('image_path')->default('default.png');
             $table->timestamps();
         });
     }

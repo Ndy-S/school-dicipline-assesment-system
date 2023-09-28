@@ -1,7 +1,7 @@
 <template>
     <div class="w-fit flex items-center">
         <button 
-            class="flex items-center justify-center px-4 py-2 rounded-l-md text-gray-100 border border-gray-500 hover:bg-white hover:text-black hover:transition-all focus:bg-white focus:text-black"
+            class="flex items-center justify-center px-4 py-2 rounded-l-md text-gray-100 border border-gray-500 hover:bg-white hover:text-black hover:transition-all"
             @click="openCreateModal"    
         >
             <font-awesome-icon :icon="['fas', 'circle-plus']" class="mr-2"/>

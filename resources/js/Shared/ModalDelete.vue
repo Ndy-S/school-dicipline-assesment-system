@@ -3,10 +3,10 @@
         <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
         <div class="modal-container md:max-w-screen-lg mx-auto shadow-lg z-50 overflow-y-auto">
             <div class="relative w-full max-w-md mx-auto">
-                <div class="bg-slate-700 rounded-sm shadow dark:bg-gray-700">
+                <div class="bg-slate-700 rounded-sm shadow">
                     <button
                         type="button"
-                        class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-full text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                        class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-full text-sm p-1.5 ml-auto inline-flex items-center"
                         @click="closeDeleteModal"
                     >
                         <font-awesome-icon :icon="['fas', 'xmark']" class="w-5 h-5" />

@@ -38,10 +38,9 @@
                             <div class="flex items-center">
                                 <img 
                                     v-if="oneTableHead === 'nama'"
-                                    src="https://tecdn.b-cdn.net/img/Photos/Avatars/img%20(23).webp" 
+                                    :src="`/img/${oneTableData['image_path']}`"
                                     class="w-6 flex mr-4 rounded-full"
                                 >
-                                <!-- :src="oneTableData['image_path']"  -->
                                 <span v-if="oneTableHead === 'aksi'">
                                     <button title="Ubah">
                                         <font-awesome-icon :icon="['fas', 'pen-clip']" style="color: paleturquoise;"/>
