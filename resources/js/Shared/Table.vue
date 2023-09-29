@@ -42,7 +42,7 @@
                                     class="w-6 flex mr-4 rounded-full"
                                 >
                                 <span v-if="oneTableHead === 'aksi'">
-                                    <button title="Ubah">
+                                    <button title="Ubah" @click="editFunc(oneTableData)">
                                         <font-awesome-icon :icon="['fas', 'pen-clip']" style="color: paleturquoise;"/>
                                     </button>
                                     &nbsp;
@@ -93,6 +93,7 @@
         tablePaginate: Object,
         tableFilters: Object,
         params: Object,
+        editFunc: Function,
         deleteFunc: Function,
     });
 

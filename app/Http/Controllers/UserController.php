@@ -39,12 +39,12 @@ class UserController extends Controller
         try {
             $attributes = $request->validate([
                 'token' => 'required',
-                'password' => 'required',
                 'peran' => 'required',
                 'nama' => 'required',
             ]);
 
             $nullableFields = [
+                'password',
                 'id',
             ];
 
@@ -55,6 +55,9 @@ class UserController extends Controller
                     $attributes = array_merge($attributes, [$field => 'N/A']);
                 }
             }
+
+            $attributes['password'] = $attributes['password'] ?? $attributes['token'];
+            $attributes['token'] = strtoupper($attributes['token']);
 
             if ($request->file('image_path')) {
                 $request->validate([
@@ -80,23 +83,44 @@ class UserController extends Controller
         try {
             $attributes = $this->dataProcess($request);
 
-            $artLibrary = User::create($attributes);
+            $user = User::create($attributes);
             return back()->withInput();
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
+    public function update(Request $request) {
+        try {
+            $attributes = $this->dataProcess($request);
+            $user = User::findOrFail($attributes['id']);
+
+            $image_path = public_path("img/{$user->image_path}");
+
+            if (!str_contains($image_path ,'default.png') && $attributes["image_path"] != $user->image_path) {
+                unlink($image_path);
+            }
+            $user->update($attributes);
+
+            return back()->withInput();
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 
     public function destroy(Request $request) {
-        $user = User::findOrFail($request->id);
+        try {
+            $user = User::findOrFail($request->id);
 
-        $image_path = public_path("img/{$user->image_path}");
-        if (!str_contains($image_path ,'default.png')) {
-            unlink($image_path);
+            $image_path = public_path("img/{$user->image_path}");
+            if (!str_contains($image_path ,'default.png')) {
+                unlink($image_path);
+            }
+    
+            User::destroy($user->id);
+            return back();
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        User::destroy($user->id);
-        return back();
     }
 }

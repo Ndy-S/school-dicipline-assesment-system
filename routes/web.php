@@ -21,4 +21,5 @@ Route::get('home', fn () => Inertia::render('Dashboard'));
 
 Route::get('user', [UserController::class, 'index']);
 Route::post('user-create', [UserController::class, 'create']);
+Route::post('user-update', [UserController::class, 'update']);
 Route::delete('user-destroy', [UserController::class, 'destroy']);

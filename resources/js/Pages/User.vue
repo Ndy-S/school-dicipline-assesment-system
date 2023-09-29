@@ -16,6 +16,7 @@
                 :tablePaginate="userPaginate"
                 :tableFilters="filters"
                 :params="params"
+                :editFunc="editFunc"
                 :deleteFunc="deleteFunc"
             />
         </div>
@@ -24,10 +25,14 @@
         <ModalCreateUpdate 
             :createMode="createMode"
             :editMode="editMode"
-            :closeCreateEditModal="closeCreateEditModal" 
+            :closeCreateEditModal="closeCreateEditModal"
+            :showProfileInput="showProfileInput"
+            :createEditModalProps="createEditModalProps"
+            :editFunc="editFunc"
+            :tempUser="tempUser"
+            :resetFunc="resetFunc"
             :form="form"
             :submit="submit"
-            :createEditModalProps="createEditModalProps"
         />
         <ModalDelete :deleteMode="deleteMode" :deleteName="deleteName" :deleteToken="deleteToken" :closeDeleteModal="closeDeleteModal" :submit="submit"/>
         <Notification :successNotification="successNotification" :messageNotification="messageNotification"/>
@@ -89,6 +94,20 @@
                         }, 3000);
                     }
                 });
+            } else if (editMode.value) {
+                form.post('user-update', {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        form.reset();
+                        closeCreateEditModal();
+
+                        messageNotification.value = 'Data berhasil diubah'
+                        successNotification.value = true;
+                        setTimeout(() => {
+                            successNotification.value = false;
+                        }, 3000);
+                    }
+                });
             } else {
                 buttonClicked.value = true;
                 form.delete('user-destroy', {
@@ -115,10 +134,10 @@
         editMode.value = false;
     };
     
+    const showProfileInput = ref(true);
     const createEditModalProps = [
         /*
         Object Notes:
-            -> Profile: Boolean (Option for Profile Input File)
             -> Custom: Boolean (Option for Custom Input for Generate Token)
             -> Selection: Array (Option Value Array for Selection)
             -> Name: String (Input Name for Submit)
@@ -130,12 +149,6 @@
             -> ReadOnly: Boolean (Readonly Input)
             -> Required: Boolean (Input Required)
         */
-        {
-            profile: true,
-            name: 'image_path',
-            display: 'Foto Profil',
-            type: 'file',
-        },
         {
             name: 'nama',
             display: 'Nama Pengguna',
@@ -158,8 +171,8 @@
             name: 'password',
             display: 'Password',
             type: 'password',
-            placeholder: '**********',
-            required: true,
+            placeholder: '4DIG',
+            required: false,
         },
         {
             selection: [
@@ -180,6 +193,30 @@
 
     // Edit Modal Code
     const editMode = ref(false);
+    const tempUser = ref(null);
+    const editFunc = (user) => {
+        editMode.value = true;
+        tempUser.value = user;
+
+        form.id = user.id;
+        form.token = user.token;
+        form.password = user.password;
+        form.peran = user.peran;
+        form.nama = user.nama;
+        form.image_path = user.image_path;
+        form.previewImage = user.image_path;
+
+        createMode.value = true;
+    };
+
+    const resetFunc = (user) => {
+        form.id = user.id;
+        form.token = user.token;
+        form.password = user.password;
+        form.peran = user.peran;
+        form.nama = user.nama;
+        form.previewImage = user.image_path;
+    };
 
     // Delete Modal Code
     const buttonClicked = ref(false);

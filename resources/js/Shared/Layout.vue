@@ -19,7 +19,7 @@
     import Title from './Title.vue';
     import Loader from './Loader.vue';
 
-    const showLoader = ref(false);
+    const showLoader = ref(true);
 
     setTimeout(() => {
         showLoader.value = false;
