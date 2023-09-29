@@ -21,7 +21,14 @@
         </div>
 
         <!-- Modal Create -->
-        <ModalCreateUpdate />
+        <ModalCreateUpdate 
+            :createMode="createMode"
+            :editMode="editMode"
+            :closeCreateEditModal="closeCreateEditModal" 
+            :form="form"
+            :submit="submit"
+            :createEditModalProps="createEditModalProps"
+        />
         <ModalDelete :deleteMode="deleteMode" :deleteName="deleteName" :deleteToken="deleteToken" :closeDeleteModal="closeDeleteModal" :submit="submit"/>
         <Notification :successNotification="successNotification" :messageNotification="messageNotification"/>
     </Layout>
@@ -56,7 +63,6 @@
     });
 
     // Form Value
-    const inputForm = ref(null);
     const form = useForm({
         id: '',
         token: '',
@@ -64,23 +70,27 @@
         peran: '',
         nama: '',
         image_path: '',
+        previewImage: '',
     });
 
     const submit = () => {
         if (!buttonClicked.value) {
-            buttonClicked.value = true;
-
             if (editMode.value === false && deleteMode.value === false) {
                 form.post('user-create', {
                     preserveScroll: true,
                     onSuccess: () => {
                         form.reset();
-                        inputForm.value.reset();
-                        previewImage.value = '';
                         closeCreateEditModal();
+
+                        messageNotification.value = 'Data berhasil ditambah'
+                        successNotification.value = true;
+                        setTimeout(() => {
+                            successNotification.value = false;
+                        }, 3000);
                     }
                 });
             } else {
+                buttonClicked.value = true;
                 form.delete('user-destroy', {
                     preserveScroll: true,
                     onSuccess: () => {
@@ -101,47 +111,72 @@
     const openCreateModal = () => createMode.value = true;
     const closeCreateEditModal = () => {
         form.reset();
-        inputForm.value.reset();
-        previewImage.value = '';
         createMode.value = false;
         editMode.value = false;
     };
-
-    const resetForm = () => {
-        form.reset(); 
-        inputForm.value.reset(); 
-        previewImage = '';
-    };
-
-    // Preview Image
-    const previewImage = ref(null);
-    const fileInput = ref(null);
-    const pickFile = () => {
-        const input = fileInput.value;
-        const file = input.files;
-        if (file && file[0]) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                previewImage.value = e.target.result;
-            };
-            reader.readAsDataURL(file[0]);
-            form.image_path = file[0];
-        }
-    };
     
+    const createEditModalProps = [
+        /*
+        Object Notes:
+            -> Profile: Boolean (Option for Profile Input File)
+            -> Custom: Boolean (Option for Custom Input for Generate Token)
+            -> Selection: Array (Option Value Array for Selection)
+            -> Name: String (Input Name for Submit)
+            -> Display: String (Text to Display)
+            -> Type: String (Type of the Input)
+            -> Placeholder: String (Input Placeholder)
+            -> MinLength: Number (Min Input Length)
+            -> MaxLength: Number (Max Input Length)
+            -> ReadOnly: Boolean (Readonly Input)
+            -> Required: Boolean (Input Required)
+        */
+        {
+            profile: true,
+            name: 'image_path',
+            display: 'Foto Profil',
+            type: 'file',
+        },
+        {
+            name: 'nama',
+            display: 'Nama Pengguna',
+            type: 'text',
+            placeholder: 'Alpha Bobby',
+            maxlength: 32,
+            required: true,
+        },
+        {
+            custom: true,
+            name: 'token',
+            display: 'Token',
+            type: 'text',
+            placeholder: '4DIG',
+            minlength: 4,
+            maxlength: 4,
+            required: true,
+        },
+        {
+            name: 'password',
+            display: 'Password',
+            type: 'password',
+            placeholder: '**********',
+            required: true,
+        },
+        {
+            selection: [
+                'Admin',
+                'Guru',
+                'Orang Tua',
+                'Kepala Sekolah',
+            ],
+            name: 'peran',
+            display: 'Peran',
+            placeholder: 'Pilih Peran',
+            required: true,
+        }
+    ];
+
     // Create Modal Code
     const createMode = ref(false);
-
-    const generateToken = () => {
-        let token = '';
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            for (let i = 0; i < 4; i++) {
-            const randomIndex = Math.floor(Math.random() * characters.length);
-            token += characters.charAt(randomIndex);
-        }
-
-        form.token = token;
-    };
 
     // Edit Modal Code
     const editMode = ref(false);
