@@ -7,7 +7,7 @@
             <h2 class="text-2xl mb-8 text-center">Login Sistem</h2>
             <form @submit.prevent="login">
                 <div class="mb-6 relative">
-                    <input v-model="form.token" type="text" name="token" required class="input">
+                    <input v-model="form.token" type="text" name="token" minlength="4" maxlength="4" required class="input">
                     <label class="label">Token</label>
                 </div>
                 <div class="mb-6 relative">

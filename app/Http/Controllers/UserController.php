@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Inertia\Inertia;
 use App\Models\User;
+use App\Models\History;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -30,7 +32,8 @@ class UserController extends Controller
         return Inertia::render('User', [
             'userQuery' => $userQuery->get(),
             'userPaginate' => $userQuery->orderBy('created_at', 'desc')->paginate('10')->withQueryString(),
-            'filters' => request()->all(['search', 'field', 'direction'])
+            'filters' => request()->all(['search', 'field', 'direction']),
+            'historyQuery' => History::query()->where('nama_tabel', 'data user')->with('user')->orderBy('created_at', 'desc')->get(),
         ]);    
     }
 
@@ -83,6 +86,15 @@ class UserController extends Controller
             $attributes = $this->dataProcess($request);
 
             $user = User::create($attributes);
+
+            $history = History::create([
+                'user_id' => Auth::id(),
+                'nama_tabel' => 'data user',
+                'jenis' => 'tambah',
+                'nama_data' => $attributes['nama'],
+                'token_data' => $attributes['token'],
+            ]);
+
             return back()->withInput();
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -102,6 +114,14 @@ class UserController extends Controller
             }
             $user->update($attributes);
 
+            $history = History::create([
+                'user_id' => Auth::id(),
+                'nama_tabel' => 'data user',
+                'jenis' => 'ubah',
+                'nama_data' => $attributes['nama'],
+                'token_data' => $attributes['token'],
+            ]);
+
             return back()->withInput();
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -118,6 +138,15 @@ class UserController extends Controller
             }
     
             User::destroy($user->id);
+
+            $history = History::create([
+                'user_id' => Auth::id(),
+                'nama_tabel' => 'data user',
+                'jenis' => 'hapus',
+                'nama_data' => $user->nama,
+                'token_data' => $user->token,
+            ]);
+
             return back();
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

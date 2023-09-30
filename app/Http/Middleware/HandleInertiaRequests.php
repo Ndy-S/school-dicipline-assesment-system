@@ -42,6 +42,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => [
                     'nama' => Auth::user()->nama,
                     'peran' => Auth::user()->peran,
+                    'token' => Auth::user()->token,
                     'image_path' => Auth::user()->image_path,
                 ]
             ] : null

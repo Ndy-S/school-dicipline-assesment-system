@@ -5,8 +5,7 @@
                 <img
                     :src="'img/' + $page.props.auth.user.image_path"
                     alt="Avatar"
-                    class="mr-3 h-auto rounded-full border-2 border-yellow-700 align-middle p-0.5"
-                    style="max-width: 50px;"
+                    class="mr-3 w-14 h-14 rounded-full border-2 border-yellow-700 align-middle p-0.5"
                 />
                 <div>
                     <h4 class="font-mono text-2xl text-yellow-400 font-medium leading-[1.2]">{{ $page.props.auth.user.nama }}</h4>

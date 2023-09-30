@@ -1,6 +1,6 @@
 <template>
-        <Layout>
-        <div class="mx-10 mt-8 min-h-[85%] p-4 sm:px-6 lg:px-8 bg-neon-custom-color rounded-lg shadow-2xl font-mono">
+    <Layout>
+        <div class="mx-auto w-11/12 mt-8 min-h-[85%] p-4 px-8 bg-neon-custom-color rounded-lg shadow-2xl font-mono">
             <div class="flex items-center justify-between">
                 
                 <h1 class="font-mono text-gray-100 text-3xl font-bold my-2">
@@ -20,6 +20,8 @@
                 :deleteFunc="deleteFunc"
             />
         </div>
+
+        <History :historyQuery="historyQuery" />
 
         <!-- Modal Create -->
         <ModalCreateUpdate 
@@ -48,6 +50,7 @@
     import ModalCreateUpdate from '../Shared/ModalCreateUpdate.vue';
     import ModalDelete from '../Shared/ModalDelete.vue';
     import Notification from '../Shared/Notification.vue';
+    import History from '../Shared/History.vue';
 
 
     // Search Input & Sort Filter
@@ -55,6 +58,7 @@
         userQuery: Object,
         userPaginate: Object,
         filters: Object,
+        historyQuery: Object,
     });
 
     const tableProps = {
@@ -172,6 +176,7 @@
             display: 'Password',
             type: 'password',
             placeholder: 'Optional',
+            maxlength: 32,
             required: false,
         },
         {
