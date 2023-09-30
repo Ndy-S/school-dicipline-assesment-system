@@ -1,7 +1,7 @@
 <template>
     <div id="loading">
         <div class="loading-dot"></div>
-        <p id="loadingParagraph">LOADING</p>
+        <p id="loadingParagraph">VERIFIKASI</p>
     </div>
 </template>
 

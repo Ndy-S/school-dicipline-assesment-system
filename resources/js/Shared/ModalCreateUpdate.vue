@@ -90,7 +90,7 @@
                                 :class="{'opacity-50': disabledResetPass, 'hover:bg-dark-custom-color hover:transition-all hover:text-gray-200 focus:ring-2 focus:ring-blue-500': !disabledResetPass}"
                                 :disabled="disabledResetPass"
                                 @click="resetPass()"
-                            >                            
+                            >                 
                                     
                             <input 
                                 v-else

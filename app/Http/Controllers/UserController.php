@@ -51,12 +51,11 @@ class UserController extends Controller
             foreach($nullableFields as $field) {
                 if (!is_null($request->input($field))) {
                     $attributes = array_merge($attributes, [$field => $request->input($field)]);
-                } else if (is_null($request->input($field)) && $request->has('id')) {
-                    $attributes = array_merge($attributes, [$field => 'N/A']);
+                } else if ($field === 'password' && is_null($request->input('id'))) {
+                    $attributes['password'] = $attributes['password'] ?? $attributes['token'];
                 }
             }
 
-            $attributes['password'] = $attributes['password'] ?? $attributes['token'];
             $attributes['token'] = strtoupper($attributes['token']);
 
             if ($request->file('image_path')) {
@@ -93,6 +92,7 @@ class UserController extends Controller
     public function update(Request $request) {
         try {
             $attributes = $this->dataProcess($request);
+
             $user = User::findOrFail($attributes['id']);
 
             $image_path = public_path("img/{$user->image_path}");

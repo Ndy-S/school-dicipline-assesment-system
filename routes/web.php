@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,11 +16,18 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', fn () => Inertia::render('Dashboard'));
-Route::get('home', fn () => Inertia::render('Dashboard'));
+Route::get('login', fn () => Inertia::render('Auth/Login'))->name('login');
+Route::post('login', [LoginController::class, 'login']);
+Route::post('logout', [LoginController::class, 'logout'])->middleware('auth');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/', fn () => Inertia::render('Dashboard'));
+    Route::get('home', fn () => Inertia::render('Dashboard'))->name('home');;
+
+    Route::get('user', [UserController::class, 'index']);
+    Route::post('user-create', [UserController::class, 'create']);
+    Route::post('user-update', [UserController::class, 'update']);
+    Route::delete('user-destroy', [UserController::class, 'destroy']);
+});
 
 
-Route::get('user', [UserController::class, 'index']);
-Route::post('user-create', [UserController::class, 'create']);
-Route::post('user-update', [UserController::class, 'update']);
-Route::delete('user-destroy', [UserController::class, 'destroy']);

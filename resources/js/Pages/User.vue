@@ -171,7 +171,7 @@
             name: 'password',
             display: 'Password',
             type: 'password',
-            placeholder: '4DIG',
+            placeholder: 'Optional',
             required: false,
         },
         {

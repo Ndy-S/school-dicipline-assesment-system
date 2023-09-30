@@ -3,14 +3,14 @@
         <div>
             <div id="header-content" class="pl-4 flex items-center my-10">
                 <img
-                    src="https://tecdn.b-cdn.net/img/Photos/Avatars/img%20(23).webp"
+                    :src="'img/' + $page.props.auth.user.image_path"
                     alt="Avatar"
                     class="mr-3 h-auto rounded-full border-2 border-yellow-700 align-middle p-0.5"
                     style="max-width: 50px;"
                 />
                 <div>
-                    <h4 class="font-mono text-2xl text-yellow-400 font-medium leading-[1.2]">Ann Smith</h4>
-                    <p class="font-mono text-yellow-500">Teacher</p>
+                    <h4 class="font-mono text-2xl text-yellow-400 font-medium leading-[1.2]">{{ $page.props.auth.user.nama }}</h4>
+                    <p class="font-mono text-yellow-500">{{ $page.props.auth.user.peran }}</p>
                 </div>
             </div>
 
@@ -43,6 +43,7 @@
             <NavMenu
                 menuName="Log out"
                 menuLink="logout"
+                method="POST"
                 menuIcon="person-walking-arrow-right"
             />
         </ul>
@@ -59,5 +60,5 @@
 </template>
 
 <script setup>
-    import NavMenu from '../Shared/NavMenu.vue'
+    import NavMenu from '../Shared/NavMenu.vue';
 </script>
