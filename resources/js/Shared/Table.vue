@@ -27,8 +27,10 @@
                 </thead>
                 <tbody>
                     <tr 
+                        v-if="tablePaginate.data.length"
                         class="border-b border-gray-700 rounded-lg"
                         v-for="(oneTableData, index) in tablePaginate.data"
+                        :key="index"
                     >
                         <td 
                             class="py-4 px-6 text-m text-gray-300 whitespace-nowrap"
@@ -57,7 +59,9 @@
                             </div>
                         </td>
                     </tr>
-                    
+                    <tr v-else>
+                        <td class="py-4 px-6 text-m text-gray-300 whitespace-nowrap text-center col-span-full" :colspan="tableHead.length">Data tidak ditemukan!</td>
+                    </tr>
                 </tbody>
             </table>
 
