@@ -3,10 +3,10 @@ import { createInertiaApp, Link } from '@inertiajs/vue3';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faUserSecret, faChartLine, faIdCardClip, faUser, faPersonWalkingArrowRight, faCirclePlus, faPenClip, faTrashCan, faPeopleRoof, faArrowUpAZ, faArrowDownZA, faXmark, faCircleExclamation, faCircleCheck, faToolbox, faTimeline, faBell } from '@fortawesome/free-solid-svg-icons';
+import { faUserSecret, faChartLine, faIdCardClip, faUser, faPersonWalkingArrowRight, faCirclePlus, faPenClip, faTrashCan, faPeopleRoof, faArrowUpAZ, faArrowDownZA, faXmark, faCircleExclamation, faCircleCheck, faToolbox, faTimeline, faBell, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 
 
-library.add(faUserSecret, faChartLine, faIdCardClip, faUser, faPersonWalkingArrowRight, faCirclePlus, faPenClip, faTrashCan, faPeopleRoof, faArrowUpAZ, faArrowDownZA, faXmark, faCircleExclamation, faCircleCheck, faToolbox, faTimeline, faBell);
+library.add(faUserSecret, faChartLine, faIdCardClip, faUser, faPersonWalkingArrowRight, faCirclePlus, faPenClip, faTrashCan, faPeopleRoof, faArrowUpAZ, faArrowDownZA, faXmark, faCircleExclamation, faCircleCheck, faToolbox, faTimeline, faBell, faGraduationCap);
 
 createInertiaApp({
     resolve: name => {

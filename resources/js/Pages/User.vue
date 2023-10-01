@@ -1,14 +1,14 @@
 <template>
     <Layout>
-        <div class="mx-auto w-11/12 mt-8 min-h-[85%] p-4 px-8 bg-neon-custom-color rounded-lg shadow-2xl font-mono">
-            <div class="flex items-center justify-between">
+        <div class="mx-auto w-11/12 mt-8 min-h-[87.5%] p-4 px-8 bg-neon-custom-color rounded-lg shadow-2xl font-mono">
+            <div class="flex items-center justify-between mb-5">
                 
                 <h1 class="font-mono text-gray-100 text-3xl font-bold my-2">
                     <font-awesome-icon :icon="['fas', 'people-roof']" />
                     <span> Tabel Data User</span>
                 </h1>
 
-                <ButtonSearch :userPaginate="userPaginate" :params="params" :openCreateModal="openCreateModal"/>
+                <ButtonSearch :dataPaginate="userPaginate" :params="params" :openCreateModal="openCreateModal"/>
             </div>
 
             <Table 
@@ -21,9 +21,8 @@
             />
         </div>
 
-        <History :historyQuery="historyQuery" />
+        <History :historyQuery="historyQuery" historyTitle="Riwayat Perubahan"/>
 
-        <!-- Modal Create -->
         <ModalCreateUpdate 
             :createMode="createMode"
             :editMode="editMode"
@@ -53,7 +52,6 @@
     import History from '../Shared/History.vue';
 
 
-    // Search Input & Sort Filter
     const props = defineProps({
         userQuery: Object,
         userPaginate: Object,
@@ -65,6 +63,7 @@
         tableHead: ['nama', 'token', 'peran', 'tanggal dibuat', 'aksi'],
     };
 
+    // Search Input & Sort Filter
     const params = reactive({
         search: props.filters.search,
         field: props.filters.field,

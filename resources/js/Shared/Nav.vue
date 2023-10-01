@@ -5,10 +5,10 @@
                 <img
                     :src="'img/' + $page.props.auth.user.image_path"
                     alt="Avatar"
-                    class="mr-3 w-14 h-14 rounded-full border-2 border-yellow-700 align-middle p-0.5"
+                    class="mr-3 w-14 h-14 rounded-full border-2 border-gray-400 align-middle p-0.5"
                 />
                 <div>
-                    <h4 class="font-mono text-2xl text-yellow-400 font-medium leading-[1.2]">{{ $page.props.auth.user.nama }}</h4>
+                    <h4 class="font-mono text-xl text-yellow-400 font-medium leading-[1.2]">{{ $page.props.auth.user.nama }}</h4>
                     <p class="font-mono text-yellow-500">{{ $page.props.auth.user.peran }}</p>
                 </div>
             </div>
@@ -24,6 +24,11 @@
                     menuName="Dashboard"
                     menuLink="home"
                     menuIcon="chart-line"
+                />
+                <NavMenu 
+                    menuName="Data Siswa"
+                    menuLink="siswa"
+                    menuIcon="graduation-cap"
                 />
                 <NavMenu
                     menuName="Data User"

@@ -14,9 +14,18 @@
                     <input v-model="form.password" type="password" name="password" required class="input">
                     <label class="label">Password</label>
                 </div>
-                <div v-if="form.errors.error" class="text-red-500 text-sm mb-4">
-                    {{ form.errors.error }}
+                <div v-if="form.errors.error" class="bg-red-500 text-white p-4 rounded-md mb-4">
+                    <div class="flex items-center">
+                        <div class="flex items-center">
+                            <font-awesome-icon :icon="['fas', 'circle-exclamation']" class="mr-2" />
+                            <p class="text-sm font-medium">
+                                {{ form.errors.error }}
+                            </p>
+                        </div>
+                    </div>
                 </div>
+
+
                 <button class="w-full py-3 px-4 mt-8 rounded-full border hover:bg-dark-custom-color hover:opacity-90 hover:transition-all focus:outline-none focus:bg-dark-custom-color text-white">
                     Log In
                 </button>

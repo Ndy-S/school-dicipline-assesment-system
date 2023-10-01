@@ -26,7 +26,7 @@ class LoginController extends Controller
         }
 
         return back()->withErrors([
-            'error' => 'Data yang anda berikan salah.'
+            'error' => 'Data yang Anda masukkan salah!'
         ]);
     }
 

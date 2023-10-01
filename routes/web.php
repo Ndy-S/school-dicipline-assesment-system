@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 
 /*
@@ -24,10 +26,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/', fn () => Inertia::render('Dashboard'));
     Route::get('home', fn () => Inertia::render('Dashboard'))->name('home');;
 
+    Route::get('siswa', [SiswaController::class, 'index']);
+
     Route::get('user', [UserController::class, 'index']);
     Route::post('user-create', [UserController::class, 'create']);
     Route::post('user-update', [UserController::class, 'update']);
     Route::delete('user-destroy', [UserController::class, 'destroy']);
+
+    Route::get('profile', [ProfileController::class, 'index']);
+    Route::post('profile-update', [ProfileController::class, 'update']);
 });
 
 

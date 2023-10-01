@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\History;
+use App\Models\Siswa;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -42,5 +43,9 @@ class User extends Authenticatable
 
     public function histories() {
         return $this->hasMany(History::class);
+    }
+
+    public function siswas() {
+        return $this->hasMany(Siswa::class);
     }
 }

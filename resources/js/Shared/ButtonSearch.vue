@@ -23,7 +23,7 @@
     import { router } from "@inertiajs/vue3";
 
     const props = defineProps({
-        userPaginate: Object,
+        dataPaginate: Object,
         params: Object,
         openCreateModal: Function,
     });
@@ -43,7 +43,7 @@
 
         const filteredParams = filterObject(params);
 
-        router.get(props.userPaginate.first_page_url, filteredParams, {
+        router.get(props.dataPaginate.first_page_url, filteredParams, {
             replace: true,
             preserveState: true,
             preserveScroll: true,

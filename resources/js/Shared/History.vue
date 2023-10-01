@@ -1,7 +1,7 @@
 <template>
         <div class="right-5 my-6 h-[95%] w-[21.5%] fixed font-mono text-white bg-neon-custom-color rounded-lg overflow-hidden hover:overflow-auto ">
             <div class="text-2xl uppercase h-fit w-full p-8 text-center border-b-2 border-b-gray-600 font-bold text-gray-200 mb-4">
-                Riwayat Perubahan
+                {{ historyTitle }}
                 <span>
                     <font-awesome-icon :icon="['fas', 'timeline']" />
                 </span>
@@ -11,7 +11,7 @@
                 <div v-if="$page.props.auth.user.token == oneHistoryData?.user?.token"  class="p-4 w-full h-auto flex items-end justify-end">
                     <div class="bg-neutral-600 rounded-md w-[65%] p-3">
                         <p class="text-sm text-yellow-400 font-bold">{{ oneHistoryData?.user?.nama ?? 'Deleted Account' }}</p>
-                        <p class="text-xs text-yellow-400 font-bold">{{ oneHistoryData?.user?.peran ?? 'Unknown' }}</p>
+                        <p class="text-xs text-yellow-500 font-bold">{{ oneHistoryData?.user?.peran ?? 'Unknown' }}</p>
                         
                         <div class="text-wrap break-words text-gray-200 my-2 text-justify text-sm">
                             <span>Perubahan pada tabel {{ oneHistoryData.nama_tabel }}, data <b class="text-yellow-500">{{ oneHistoryData.nama_data }} ({{ oneHistoryData.token_data }})</b> telah di{{ oneHistoryData.jenis }}.</span>
@@ -30,7 +30,7 @@
                     <img :src="'img/' + (oneHistoryData?.user?.image_path || 'default.png')" class="w-12 h-12 mx-2 my-auto rounded-full">
                     <div class="bg-slate-600 rounded-md w-[65%] p-3">
                         <p class="text-sm text-yellow-400 font-bold">{{ oneHistoryData?.user?.nama ?? 'Akun Tidak Tersedia' }}</p>
-                        <p class="text-xs text-yellow-400 font-bold">{{ oneHistoryData?.user?.peran ?? 'Tidak Ada' }}</p>
+                        <p class="text-xs text-yellow-500 font-bold">{{ oneHistoryData?.user?.peran ?? 'Tidak Ada' }}</p>
                         
                         <div class="text-wrap break-words text-gray-200 my-2 text-justify text-sm">
                             <span>Perubahan pada tabel {{ oneHistoryData.nama_tabel }}, data <b class="text-yellow-500">{{ oneHistoryData.nama_data }} ({{ oneHistoryData.token_data }})</b> telah di{{ oneHistoryData.jenis }}.</span>
@@ -55,6 +55,7 @@
 <script setup>
     const props = defineProps({
         historyQuery: Object,
+        historyTitle: String,
     });
 
     const formatDateTime = (timestamp) => {
