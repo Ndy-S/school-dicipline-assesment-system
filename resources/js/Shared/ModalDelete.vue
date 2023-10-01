@@ -16,7 +16,7 @@
                     <form @submit.prevent="submit">
                         <div class="p-6 text-center">
                             <font-awesome-icon :icon="['fas', 'circle-exclamation']" class="mx-auto mb-4 text-red-400 w-14 h-14" />
-                            <h3 class="mb-5 text-lg font-mono text-gray-300">Apakah kamu yakin ingin menghapus <b class="text-yellow-500">{{ deleteName }} ({{ deleteToken }})</b>?</h3>
+                            <h3 class="mb-5 text-lg font-mono text-gray-300">Apakah kamu yakin ingin menghapus <b class="text-yellow-500">{{ deleteName }} ({{ deleteNIS ?? deleteToken }})</b>?</h3>
 
                             <button
                                 type="submit"
@@ -37,6 +37,7 @@
         deleteMode: Boolean,
         deleteName: String,
         deleteToken: String,
+        deleteNIS: Number,
         closeDeleteModal: Function,
         submit: Function,
     });

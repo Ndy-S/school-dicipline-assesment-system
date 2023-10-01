@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('nama');
             $table->integer('nis')->unique();
             $table->string('kelas');
-            $table->enum('gender', ['L', 'P']);
+            $table->enum('gender', ['Laki-laki', 'Perempuan']);
             $table->string('agama')->nullable();
             $table->text('alamat')->nullable();
-            $table->string('no_hp')->nullable();
+            $table->string('handphone')->nullable();
             $table->foreignIdFor(User::class)->nullable()->cascadeOnUpdate();
             $table->timestamps();
         });

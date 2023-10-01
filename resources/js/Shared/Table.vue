@@ -1,6 +1,6 @@
 <template>
     <div class="overflow-x-scroll border border-gray-500 sm:rounded-lg my-2">
-        <div class="shadow-2xl sm:rounded-lg text-gray-300 p-2">
+        <div class="sm:rounded-lg text-gray-300 p-2">
             <table class="min-w-full divide-y divide-gray-500 table-fixed font-mono">
                 <thead class="border-b border-gray-700 rounded-lg">
                     <tr>
@@ -39,7 +39,7 @@
                         >
                             <div class="flex items-center">
                                 <img 
-                                    v-if="oneTableHead === 'nama'"
+                                    v-if="oneTableHead === 'nama' && oneTableData['image_path']"
                                     :src="`/img/${oneTableData['image_path']}`"
                                     class="w-6 flex mr-4 rounded-full"
                                 >
@@ -55,7 +55,7 @@
                                 <span v-else-if="oneTableHead === 'tanggal dibuat'">
                                     {{ formatDate(oneTableData['created_at']) }}
                                 </span>
-                                <span v-else class="flex">{{ oneTableData[oneTableHead] }}</span>
+                                <span v-else class="flex">{{ oneTableData[oneTableHead] ?? '-' }}</span>
                             </div>
                         </td>
                     </tr>

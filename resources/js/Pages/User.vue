@@ -60,7 +60,7 @@
     });
 
     const tableProps = {
-        tableHead: ['nama', 'token', 'peran', 'tanggal dibuat', 'aksi'],
+        tableHead: ['aksi', 'nama', 'token', 'peran', 'tanggal dibuat'],
     };
 
     // Search Input & Sort Filter

@@ -8,7 +8,7 @@
                     class="mr-3 w-14 h-14 rounded-full border-2 border-gray-400 align-middle p-0.5"
                 />
                 <div>
-                    <h4 class="font-mono text-xl text-yellow-400 font-medium leading-[1.2]">{{ $page.props.auth.user.nama }}</h4>
+                    <h4 class="font-mono text-xl text-yellow-400 font-medium leading-[1.2] pr-2">{{ $page.props.auth.user.nama }}</h4>
                     <p class="font-mono text-yellow-500">{{ $page.props.auth.user.peran }}</p>
                 </div>
             </div>

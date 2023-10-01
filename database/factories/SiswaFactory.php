@@ -23,7 +23,7 @@ class SiswaFactory extends Factory
             'nama' => $faker->name,
             'nis' => $faker->unique()->randomNumber(6),
             'kelas' => $faker->numberBetween(1, 6),
-            'gender' => $faker->randomElement(['L', 'P']),
+            'gender' => $faker->randomElement(['Laki-laki', 'Perempuan']),
         ];
     }
 }

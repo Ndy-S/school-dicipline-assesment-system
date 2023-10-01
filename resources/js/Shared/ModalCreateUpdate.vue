@@ -69,7 +69,7 @@
                                 :id="createEditModalProp.name" 
                                 v-model="form[createEditModalProp.name]" 
                                 :name="createEditModalProp.name"
-                                class="bg-gray-700 border border-gray-300 text-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
+                                class="bg-gray-700 border border-gray-300 text-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
                                 :required="createEditModalProp.required"
                             >
                                 <option value="" selected>{{ createEditModalProp.placeholder }}</option>
@@ -81,6 +81,16 @@
                                     {{ option }}
                                 </option>
                             </select>
+
+                            <v-select  
+                                v-else-if="createEditModalProp.vueselect"
+                                :options="createEditModalProp.vueselect"
+                                :placeholder="createEditModalProp.placeholder"
+                                v-model="form[createEditModalProp.name]"
+                                label="nama"
+                                track-by="id"
+                                class="border border-gray-300 text-gray-600 bg-white text-sm focus:ring-blue-500 focus:border-blue-500 block w-full"
+                            />
 
                             <input 
                                 v-else-if="editMode == true && createEditModalProp.name == 'password'"
@@ -154,6 +164,7 @@
 
 <script setup>
     import { ref } from 'vue';
+    import "vue-select/dist/vue-select.css";
 
     const props = defineProps({
         createMode: Boolean, 
@@ -203,5 +214,5 @@
         disabledResetPass.value = true;
         props.form.password = props.form.token;
     };
-    
+
 </script>

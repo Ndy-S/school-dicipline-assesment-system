@@ -27,6 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::get('home', fn () => Inertia::render('Dashboard'))->name('home');;
 
     Route::get('siswa', [SiswaController::class, 'index']);
+    Route::post('siswa-create', [SiswaController::class, 'create']);
+    Route::delete('siswa-destroy', [SiswaController::class, 'destroy']);
 
     Route::get('user', [UserController::class, 'index']);
     Route::post('user-create', [UserController::class, 'create']);

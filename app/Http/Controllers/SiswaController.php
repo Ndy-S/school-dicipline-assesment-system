@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Siswa;
+use App\Models\History;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 
@@ -12,7 +15,7 @@ class SiswaController extends Controller
     public function index() {
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:nama,nis,kelas,gender,agama,alamat,no_hp']
+            'field' => ['in:nama,nis,kelas,gender,agama,alamat,handphone']
         ]);
 
         $siswaQuery = Siswa::query();
@@ -25,7 +28,7 @@ class SiswaController extends Controller
                 ->orWhere('gender', 'LIKE', '%'.request('search').'%')
                 ->orWhere('agama', 'LIKE', '%'.request('search').'%')
                 ->orWhere('alamat', 'LIKE', '%'.request('search').'%')
-                ->orWhere('no_hp', 'LIKE', '%'.request('search').'%');
+                ->orWhere('handphone', 'LIKE', '%'.request('search').'%');
         }
 
         if (request()->has(['field', 'direction'])) {
@@ -34,8 +37,83 @@ class SiswaController extends Controller
 
         return Inertia::render('Siswa', [
             'siswaQuery' => $siswaQuery->get(),
-            'siswaPaginate' => $siswaQuery->orderBy('created_at', 'desc')->paginate('10')->withQueryString(),
+            'siswaPaginate' => $siswaQuery->with('user')->orderBy('created_at', 'desc')->paginate('10')->withQueryString(),
             'filters' => request()->all(['search', 'field', 'direction']),
+            'historyQuery' => History::query()->where('nama_tabel', 'data siswa')->with('user')->orderBy('created_at', 'desc')->get(),
+            'userQuery' => User::query()->where('peran', 'Orang Tua')->get(),
         ]);
+    }
+
+    public function dataProcess($request) {
+        try {
+            $attributes = $request->validate([
+                'nama' => 'required',
+                'nis' => 'required',
+                'kelas' => 'required',
+                'gender' => 'required',
+            ]);
+
+            $nullableFields = [
+                'agama',
+                'alamat',
+                'handphone',
+                'id',
+                'user_id'
+            ];
+
+
+            foreach($nullableFields as $field) {
+                if ($field == 'user_id' && !is_null($request->input($field))) {
+                    $attributes = array_merge($attributes, [$field => $request->input($field)['id']]);
+                } else if (!is_null($request->input($field))) {
+                    $attributes = array_merge($attributes, [$field => $request->input($field)]);
+                } 
+            }
+
+            return $attributes;
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
+    public function create(Request $request) {
+        try {
+            $attributes = $this->dataProcess($request);
+
+            $siswa = Siswa::create($attributes);
+
+            $history = History::create([
+                'user_id' => Auth::id(),
+                'nama_tabel' => 'data siswa',
+                'jenis' => 'tambah',
+                'nama_data' => $attributes['nama'],
+                'token_data' => $attributes['nis'],
+            ]);
+
+            return back()->withInput();
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function destroy(Request $request) {
+        try {
+            $siswa = Siswa::findOrFail($request->id);
+
+            Siswa::destroy($siswa->id);
+
+            $history = History::create([
+                'user_id' => Auth::id(),
+                'nama_tabel' => 'data siswa',
+                'jenis' => 'hapus',
+                'nama_data' => $siswa->nama,
+                'token_data' => $siswa->nis,
+            ]);
+
+            return back();
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }
