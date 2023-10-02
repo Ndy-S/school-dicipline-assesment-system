@@ -3,12 +3,12 @@
         <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
         <div class="modal-container bg-slate-700 w-1/2 md:max-w-screen-lg mx-auto rounded shadow-lg z-50 overflow-y-auto">
             <div class="modal-content py-4 text-left px-6 shadow">
-                <form @submit.prevent="submit" enctype="multipart/form-data">
+                <form @submit.prevent="submit()" enctype="multipart/form-data">
                     <div class="flex justify-between items-center pb-3 mb-10">
                         <font-awesome-icon :icon="['fas', 'toolbox']" class="w-6 h-6 text-white mr-4"/>
                         <p class="text-2xl font-bold text-white">{{ !editMode ? 'Modal Tambah Data' : 'Modal Ubah Data'}}</p>
                         <button 
-                            type="reset" 
+                            type="reset"
                             class="modal-close cursor-pointer z-50 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-full text-sm p-1.5 ml-auto inline-flex items-center" 
                             @click="closeCreateEditModal(); disabledResetPass = false"
                         >
@@ -20,7 +20,7 @@
                         <div 
                             v-if="editMode" 
                             class="h-20 w-20 mx-auto max-w-1/4 rounded-full block bg-center bg-cover bg-gray-700 border border-dashed border-gray-300" 
-                            :style="{ 'background-image': form.previewImage == tempUser.image_path ? `url(img/${form.previewImage})` : `url(${form.previewImage})` }"
+                            :style="{ 'background-image': form.previewImage == tempData.image_path ? `url(img/${form.previewImage})` : `url(${form.previewImage})` }"
                             @click="fileInput.click()"
                         >
                         </div>
@@ -67,7 +67,7 @@
                             <select 
                                 v-if="createEditModalProp.selection"
                                 :id="createEditModalProp.name" 
-                                v-model="form[createEditModalProp.name]" 
+                                v-model="form[createEditModalProp.name]"
                                 :name="createEditModalProp.name"
                                 class="bg-gray-700 border border-gray-300 text-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
                                 :required="createEditModalProp.required"
@@ -136,7 +136,7 @@
                         v-if="editMode"
                         :type="button"
                         class="text-gray-200 bg-red-700 hover:bg-red-800 focus:ring-2 focus:outline-none focus:ring-red-300 font-semibold rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-                        @click="checkbox = false; resetFunc(tempUser); disabledResetPass = false;"
+                        @click="checkbox = false; resetFunc(tempData); disabledResetPass = false;"
                     >
                         Reset
                     </button>
@@ -173,12 +173,11 @@
         showProfileInput: Boolean,
         createEditModalProps: Array,
         editFunc: Function,
-        tempUser: Object,
+        tempData: Object,
         resetFunc: Object,
         form: Object,
         submit: Function,
     });
-
 
     // Preview Image
     const fileInput = ref(null);

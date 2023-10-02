@@ -16,8 +16,13 @@ class GuruFactory extends Factory
      */
     public function definition(): array
     {
+        $faker = \Faker\Factory::create();
+
         return [
-            //
+            'nama' => $faker->name,
+            'nip' => $faker->unique()->randomNumber(6),
+            'piket' => $faker->randomElement(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']),
+            'gender' => $faker->randomElement(['Laki-laki', 'Perempuan']),
         ];
     }
 }

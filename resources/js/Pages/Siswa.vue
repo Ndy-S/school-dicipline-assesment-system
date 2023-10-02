@@ -21,7 +21,6 @@
             />
         </div>
 
-        
         <History :historyQuery="historyQuery" historyTitle="Riwayat Perubahan"/>
 
         <ModalCreateUpdate 
@@ -31,12 +30,12 @@
             :showProfileInput="showProfileInput"
             :createEditModalProps="createEditModalProps"
             :editFunc="editFunc"
-            :tempUser="tempUser"
+            :tempData="tempSiswa"
             :resetFunc="resetFunc"
             :form="form"
             :submit="submit"
         />
-        <ModalDelete :deleteMode="deleteMode" :deleteName="deleteName" :deleteToken="deleteToken" :deleteNIS="deleteNIS" :closeDeleteModal="closeDeleteModal" :submit="submit"/>
+        <ModalDelete :deleteMode="deleteMode" :deleteName="deleteName" :deleteToken="deleteToken" :deleteNoInduk="deleteNIS" :closeDeleteModal="closeDeleteModal" :submit="submit"/>
         <Notification :successNotification="successNotification" :messageNotification="messageNotification"/>
     </Layout>
 </template>
@@ -61,7 +60,7 @@
     });
 
     const tableProps = {
-        tableHead: ['aksi', 'nama', 'nis', 'kelas', 'gender', 'agama', 'alamat', 'handphone', 'tanggal dibuat'],
+        tableHead: ['aksi', 'nama', 'nis', 'kelas', 'gender', 'agama', 'alamat', 'handphone', 'orang tua', 'tanggal dibuat'],
     };
 
     // Search Input & Sort Filter
@@ -167,7 +166,7 @@
             name: 'nis',
             display: 'Nomor Induk Siswa (NIS)',
             type: 'number',
-            placeholder: '2003113132',
+            placeholder: '213910',
             maxlength: 32,
             required: true
         },
@@ -227,12 +226,28 @@
         tempSiswa.value = siswa;
 
         form.id = siswa.id;
+        form.nama = siswa.nama;
+        form.nis = siswa.nis;
+        form.kelas = siswa.kelas;
+        form.gender = siswa.gender;
+        form.agama = siswa.agama;
+        form.alamat = siswa.alamat;
+        form.handphone = siswa.handphone;
+        form.user_id = siswa?.user?.nama;
 
         createMode.value = true;
     };
 
     const resetFunc = (siswa) => {
         form.id = siswa.id;
+        form.nama = siswa.nama;
+        form.nis = siswa.nis;
+        form.kelas = siswa.kelas;
+        form.gender = siswa.gender;
+        form.agama = siswa.agama ?? '';
+        form.alamat = siswa.alamat ?? '';
+        form.handphone = siswa.handphone ?? '';
+        form.user_id = siswa?.user?.nama ?? '';
     };
 
     // Delete Modal Code

@@ -74,7 +74,7 @@
         </div>
 
 
-        <History :historyQuery="historyQuery" historyTitle="Aktivitas Terkini"/>
+        <History :historyQuery="historyQuery" historyTitle="Aktivitas Pengguna"/>
         <Notification :successNotification="successNotification" :messageNotification="messageNotification"/>
     </Layout>
 </template>

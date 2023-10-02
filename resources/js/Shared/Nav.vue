@@ -22,13 +22,18 @@
             >
                 <NavMenu 
                     menuName="Dashboard"
-                    menuLink="home"
+                    menuLink="dashboard"
                     menuIcon="chart-line"
                 />
                 <NavMenu 
                     menuName="Data Siswa"
                     menuLink="siswa"
                     menuIcon="graduation-cap"
+                />
+                <NavMenu 
+                    menuName="Data Guru"
+                    menuLink="guru"
+                    menuIcon="chalkboard-user"
                 />
                 <NavMenu
                     menuName="Data User"

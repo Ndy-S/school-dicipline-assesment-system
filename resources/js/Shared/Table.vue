@@ -55,6 +55,9 @@
                                 <span v-else-if="oneTableHead === 'tanggal dibuat'">
                                     {{ formatDate(oneTableData['created_at']) }}
                                 </span>
+                                <span v-else-if="oneTableHead === 'orang tua' || oneTableHead === 'akun guru'">
+                                    {{ oneTableData?.user?.nama ? `${oneTableData.user.nama} (${oneTableData.user.token || '-'})` : '-' }}
+                                </span>
                                 <span v-else class="flex">{{ oneTableData[oneTableHead] ?? '-' }}</span>
                             </div>
                         </td>

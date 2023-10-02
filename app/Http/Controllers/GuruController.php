@@ -2,45 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Siswa;
-use App\Models\History;
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use App\Models\Guru;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use App\Models\History;
 
-
-class SiswaController extends Controller
+class GuruController extends Controller
 {
     public function index() {
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:nama,nis,kelas,gender,agama,alamat,handphone']
+            'field' => ['in:nama,nip,gender,piket,alamat,handphone']
         ]);
 
-        $siswaQuery = Siswa::query();
+        $guruQuery = Guru::query();
 
         if (request('search')) {
-            $siswaQuery
+            $guruQuery
                 ->where('nama', 'LIKE', '%'.request('search').'%')
-                ->orWhere('nis', 'LIKE', '%'.request('search').'%')
-                ->orWhere('kelas', 'LIKE', '%'.request('search').'%')
+                ->orWhere('nip', 'LIKE', '%'.request('search').'%')
                 ->orWhere('gender', 'LIKE', '%'.request('search').'%')
-                ->orWhere('agama', 'LIKE', '%'.request('search').'%')
+                ->orWhere('piket', 'LIKE', '%'.request('search').'%')
                 ->orWhere('alamat', 'LIKE', '%'.request('search').'%')
                 ->orWhere('handphone', 'LIKE', '%'.request('search').'%');
         }
 
         if (request()->has(['field', 'direction'])) {
-            $siswaQuery->orderBy(request('field'), request('direction'));
+            $guruQuery->orderBy(request('field'), request('direction'));
         }
-
-        return Inertia::render('Siswa', [
-            'siswaQuery' => $siswaQuery->get(),
-            'siswaPaginate' => $siswaQuery->with('user')->orderBy('created_at', 'desc')->paginate('10')->withQueryString(),
+        
+        return Inertia::render('Guru', [
+            'guruQuery' => $guruQuery->get(),
+            'guruPaginate' => $guruQuery->with('user')->orderBy('created_at', 'desc')->paginate('10')->withQueryString(),
             'filters' => request()->all(['search', 'field', 'direction']),
-            'historyQuery' => History::query()->where('nama_tabel', 'data siswa')->with('user')->orderBy('created_at', 'desc')->get(),
-            'userQuery' => User::query()->where('peran', 'Orang Tua')->get(),
+            'historyQuery' => History::query()->where('nama_tabel', 'data guru')->with('user')->orderBy('created_at', 'desc')->get(),
+            'userQuery' => User::query()->where('peran', 'Guru')->get(),
         ]);
     }
 
@@ -48,13 +46,12 @@ class SiswaController extends Controller
         try {
             $attributes = $request->validate([
                 'nama' => 'required',
-                'nis' => 'required',
-                'kelas' => 'required',
+                'nip' => 'required',
                 'gender' => 'required',
             ]);
 
             $nullableFields = [
-                'agama',
+                'piket',
                 'alamat',
                 'handphone',
                 'id',
@@ -77,19 +74,18 @@ class SiswaController extends Controller
         }
     }
 
-
     public function create(Request $request) {
         try {
             $attributes = $this->dataProcess($request);
 
-            $siswa = Siswa::create($attributes);
+            $guru = Guru::create($attributes);
 
             $history = History::create([
                 'user_id' => Auth::id(),
-                'nama_tabel' => 'data siswa',
+                'nama_tabel' => 'data guru',
                 'jenis' => 'tambah',
                 'nama_data' => $attributes['nama'],
-                'token_data' => $attributes['nis'],
+                'token_data' => $attributes['nip'],
             ]);
 
             return back()->withInput();
@@ -97,21 +93,21 @@ class SiswaController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
+    
     public function update(Request $request) {
         try {
             $attributes = $this->dataProcess($request);
 
-            $siswa = Siswa::findOrFail($attributes['id']);
+            $guru = Guru::findOrFail($attributes['id']);
 
-            $siswa->update($attributes);
+            $guru->update($attributes);
 
             $history = History::create([
                 'user_id' => Auth::id(),
-                'nama_tabel' => 'data siswa',
+                'nama_tabel' => 'data guru',
                 'jenis' => 'ubah',
                 'nama_data' => $attributes['nama'],
-                'token_data' => $attributes['nis'],
+                'token_data' => $attributes['nip'],
             ]);
 
             return back()->withInput();
@@ -122,16 +118,16 @@ class SiswaController extends Controller
 
     public function destroy(Request $request) {
         try {
-            $siswa = Siswa::findOrFail($request->id);
+            $guru = Guru::findOrFail($request->id);
 
-            Siswa::destroy($siswa->id);
+            Guru::destroy($guru->id);
 
             $history = History::create([
                 'user_id' => Auth::id(),
-                'nama_tabel' => 'data siswa',
+                'nama_tabel' => 'data guru',
                 'jenis' => 'hapus',
-                'nama_data' => $siswa->nama,
-                'token_data' => $siswa->nis,
+                'nama_data' => $guru->nama,
+                'token_data' => $guru->nip,
             ]);
 
             return back();

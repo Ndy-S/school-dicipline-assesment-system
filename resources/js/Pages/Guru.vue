@@ -5,15 +5,15 @@
                 
                 <h1 class="font-mono text-gray-100 text-3xl font-bold my-2">
                     <font-awesome-icon :icon="['fas', 'people-roof']" />
-                    <span> Tabel Data User</span>
+                    <span> Tabel Data Guru</span>
                 </h1>
 
-                <ButtonSearch :dataPaginate="userPaginate" :params="params" :openCreateModal="openCreateModal"/>
+                <ButtonSearch :dataPaginate="guruPaginate" :params="params" :openCreateModal="openCreateModal"/>
             </div>
 
             <Table 
                 :tableHead="tableProps.tableHead" 
-                :tablePaginate="userPaginate"
+                :tablePaginate="guruPaginate"
                 :tableFilters="filters"
                 :params="params"
                 :editFunc="editFunc"
@@ -30,12 +30,12 @@
             :showProfileInput="showProfileInput"
             :createEditModalProps="createEditModalProps"
             :editFunc="editFunc"
-            :tempData="tempUser"
+            :tempData="tempGuru"
             :resetFunc="resetFunc"
             :form="form"
             :submit="submit"
         />
-        <ModalDelete :deleteMode="deleteMode" :deleteName="deleteName" :deleteToken="deleteToken" :closeDeleteModal="closeDeleteModal" :submit="submit"/>
+        <ModalDelete :deleteMode="deleteMode" :deleteName="deleteName" :deleteToken="deleteToken" :deleteNoInduk="deleteNIP" :closeDeleteModal="closeDeleteModal" :submit="submit"/>
         <Notification :successNotification="successNotification" :messageNotification="messageNotification"/>
     </Layout>
 </template>
@@ -51,16 +51,16 @@
     import Notification from '../Shared/Notification.vue';
     import History from '../Shared/History.vue';
 
-
     const props = defineProps({
-        userQuery: Object,
-        userPaginate: Object,
+        guruQuery: Object,
+        guruPaginate: Object,
         filters: Object,
         historyQuery: Object,
+        userQuery: Object,
     });
 
     const tableProps = {
-        tableHead: ['aksi', 'nama', 'token', 'peran', 'tanggal dibuat'],
+        tableHead: ['aksi', 'nama', 'nip', 'gender', 'piket', 'akun guru', 'alamat', 'handphone', 'tanggal dibuat'],
     };
 
     // Search Input & Sort Filter
@@ -73,18 +73,19 @@
     // Form Value
     const form = useForm({
         id: '',
-        token: '',
-        password: '',
-        peran: '',
         nama: '',
-        image_path: '',
-        previewImage: '',
+        nip: '',
+        gender: '',
+        piket: '',
+        alamat: '',
+        handphone: '',
+        user_id: '',
     });
 
     const submit = () => {
         if (!buttonClicked.value) {
             if (editMode.value === false && deleteMode.value === false) {
-                form.post('user-create', {
+                form.post('guru-create', {
                     preserveScroll: true,
                     onSuccess: () => {
                         form.reset();
@@ -98,7 +99,7 @@
                     }
                 });
             } else if (editMode.value) {
-                form.post('user-update', {
+                form.post('guru-update', {
                     preserveScroll: true,
                     onSuccess: () => {
                         form.reset();
@@ -113,7 +114,7 @@
                 });
             } else {
                 buttonClicked.value = true;
-                form.delete('user-destroy', {
+                form.delete('guru-destroy', {
                     preserveScroll: true,
                     onSuccess: () => {
                         deleteMode.value = false;
@@ -136,13 +137,13 @@
         createMode.value = false;
         editMode.value = false;
     };
-    
-    const showProfileInput = ref(true);
+
     const createEditModalProps = [
         /*
         Object Notes:
             -> Custom: Boolean (Option for Custom Input for Generate Token)
             -> Selection: Array (Option Value Array for Selection)
+            -> Vueselect: Array (Option Value Array for Vue-Selection)
             -> Name: String (Input Name for Submit)
             -> Display: String (Text to Display)
             -> Type: String (Type of the Input)
@@ -154,41 +155,60 @@
         */
         {
             name: 'nama',
-            display: 'Nama Pengguna',
+            display: 'Nama Guru',
             type: 'text',
             placeholder: 'Alpha Bobby',
             maxlength: 32,
             required: true,
         },
         {
-            custom: true,
-            name: 'token',
-            display: 'Token',
-            type: 'text',
-            placeholder: '4DIG',
-            minlength: 4,
-            maxlength: 4,
-            required: true,
-        },
-        {
-            name: 'password',
-            display: 'Password',
-            type: 'password',
-            placeholder: 'Optional',
+            name: 'nip',
+            display: 'Nomor Induk Pegawai (NIP)',
+            type: 'number',
+            placeholder: '551923',
             maxlength: 32,
-            required: false,
+            required: true
         },
         {
             selection: [
-                'Admin',
-                'Guru',
-                'Orang Tua',
-                'Kepala Sekolah',
+                'Laki-laki',
+                'Perempuan',
             ],
-            name: 'peran',
-            display: 'Peran',
-            placeholder: 'Pilih Peran',
+            name: 'gender',
+            display: 'Gender/Jenis Kelamin',
+            placeholder: 'Pilih jenis kelamin',
             required: true,
+        },
+        {
+            selection: [
+                'Senin',
+                'Selasa',
+                'Rabu',
+                'Kamis',
+                'Jumat',
+                'Sabtu',
+            ],
+            name: 'piket',
+            display: 'Jadwal Piket',
+            placeholder: 'Pilih jadwal piket',
+        },
+        {
+            vueselect: props.userQuery,
+            name: 'user_id',
+            display: 'Akun Guru',
+            placeholder: 'Pilih akun guru'
+        },
+        {
+            name: 'alamat',
+            display: 'Alamat',
+            type: 'string',
+            placeholder: 'Jalan Pegangsaan Timur No. 56'
+        },
+        {
+            name: 'handphone',
+            display: 'No. Handphone',
+            type: 'string',
+            placeholder: '0821 xxxx xxxx'
         }
     ];
 
@@ -197,29 +217,32 @@
 
     // Edit Modal Code
     const editMode = ref(false);
-    const tempUser = ref(null);
-    const editFunc = (user) => {
+    const tempGuru = ref(null);
+    const editFunc = (guru) => {
         editMode.value = true;
-        tempUser.value = user;
+        tempGuru.value = guru;
 
-        form.id = user.id;
-        form.token = user.token;
-        form.password = user.password;
-        form.peran = user.peran;
-        form.nama = user.nama;
-        form.image_path = user.image_path;
-        form.previewImage = user.image_path;
+        form.id = guru.id;
+        form.nama = guru.nama;
+        form.nip = guru.nip;
+        form.gender = guru.gender;
+        form.piket = guru.piket ?? '';
+        form.alamat = guru.alamat;
+        form.handphone = guru.handphone;
+        form.user_id = guru?.user?.nama;
 
         createMode.value = true;
     };
 
-    const resetFunc = (user) => {
-        form.id = user.id;
-        form.token = user.token;
-        form.password = user.password;
-        form.peran = user.peran;
-        form.nama = user.nama;
-        form.previewImage = user.image_path;
+    const resetFunc = (guru) => {
+        form.id = guru.id;
+        form.nama = guru.nama;
+        form.nip = guru.nip;
+        form.gender = guru.gender;
+        form.piket = guru.piket ?? '';
+        form.alamat = guru.alamat ?? '';
+        form.handphone = guru.handphone ?? '';
+        form.user_id = guru?.user?.nama ?? '';
     };
 
     // Delete Modal Code
@@ -227,11 +250,13 @@
     const deleteMode = ref(false);
     const deleteName = ref(null);
     const deleteToken = ref(null);
+    const deleteNIP = ref(null);
 
     const deleteFunc = (row) => {
         deleteMode.value = true;
         deleteName.value = row.nama;
-        deleteToken.value = row.token;
+        deleteToken.value = row?.user?.token;
+        deleteNIP.value = row.nip;
         form.id = row.id;
     };
 
