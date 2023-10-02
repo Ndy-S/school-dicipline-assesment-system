@@ -44,7 +44,6 @@
 <script setup>
     import { ref, reactive } from 'vue';
     import { useForm } from "@inertiajs/vue3";
-
     import Layout from '../Shared/Layout.vue';
     import Table from '../Shared/Table.vue';
     import ButtonSearch from '../Shared/ButtonSearch.vue';
@@ -141,15 +140,6 @@
         editMode.value = false;
     };
 
-
-    // let dict = [];
-
-    // for (const user of props.userQuery) {
-    //     dict.push({
-    //         'label': user.nama,
-    //     });
-    // }
-
     const createEditModalProps = [
         /*
         Object Notes:
@@ -214,7 +204,7 @@
         },
         {
             name: 'alamat',
-            display: 'alamat',
+            display: 'Alamat',
             type: 'string',
             placeholder: 'Jalan Pegangsaan Timur No. 56'
         },

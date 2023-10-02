@@ -13,6 +13,6 @@ class SiswaSeeder extends Seeder
      */
     public function run(): void
     {
-        Siswa::factory()->count(10)->create();
+        Siswa::factory()->count(20)->create();
     }
 }

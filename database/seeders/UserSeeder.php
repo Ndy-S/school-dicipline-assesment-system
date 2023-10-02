@@ -13,6 +13,15 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->count(10)->create();
+        $userData = [
+            'nama' => 'John Doe',
+            'token' => '0000',
+            'password' => '0000',
+            'peran' => 'Admin',
+        ];
+
+        User::firstOrCreate(['token' => $userData['token']], $userData);
+
+        User::factory()->count(20)->create();
     }
 }
