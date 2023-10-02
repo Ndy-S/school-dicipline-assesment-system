@@ -9,6 +9,12 @@ Before you begin, ensure that you have the following software installed on your 
 - npm
 
 ## Setup Instructions
+### 0. Copy the Project
+```
+git clone https://github.com/Ndy-S/school-dicipline-assesment-system.git
+cd school-dicipline-assesment-system
+```
+
 ### 1. Install Laravel CLI
 ```
 composer global require laravel/installer
