@@ -5,6 +5,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\GuruController;
+use App\Http\Controllers\MataPelajaranController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
@@ -26,8 +27,7 @@ Route::post('logout', [LoginController::class, 'logout'])->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [Controller::class, 'dashboard']);
-    Route::get('dashboard', [Controller::class, 'dashboard']);
-
+    Route::get('dashboard', [Controller::class, 'dashboard'])->name('dashboard');
 
     Route::get('siswa', [SiswaController::class, 'index']);
     Route::post('siswa-create', [SiswaController::class, 'create']);
@@ -39,6 +39,10 @@ Route::middleware('auth')->group(function () {
     Route::post('guru-update', [GuruController::class, 'update']);
     Route::delete('guru-destroy', [GuruController::class, 'destroy']);
 
+    Route::get('matapelajaran', [MataPelajaranController::class, 'index']);
+    Route::post('matapelajaran-create', [MataPelajaranController::class, 'create']);
+    Route::post('matapelajaran-update', [MataPelajaranController::class, 'update']);
+    Route::delete('matapelajaran-destroy', [MataPelajaranController::class, 'destroy']);
 
     Route::get('user', [UserController::class, 'index']);
     Route::post('user-create', [UserController::class, 'create']);

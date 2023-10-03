@@ -4,16 +4,16 @@
             <div class="flex items-center justify-between mb-5">
                 
                 <h1 class="font-mono text-gray-100 text-3xl font-bold my-2">
-                    <font-awesome-icon :icon="['fas', 'people-roof']" />
-                    <span> Tabel Data User</span>
+                    <font-awesome-icon :icon="['fas', 'table']" />
+                    <span> Tabel Data Mata Pelajaran</span>
                 </h1>
 
-                <ButtonSearch :dataPaginate="userPaginate" :params="params" :openCreateModal="openCreateModal"/>
+                <ButtonSearch :dataPaginate="mataPelajaranPaginate" :params="params" :openCreateModal="openCreateModal"/>
             </div>
 
             <Table 
                 :tableHead="tableProps.tableHead" 
-                :tablePaginate="userPaginate"
+                :tablePaginate="mataPelajaranPaginate"
                 :tableFilters="filters"
                 :params="params"
                 :editFunc="editFunc"
@@ -27,19 +27,17 @@
             :createMode="createMode"
             :editMode="editMode"
             :closeCreateEditModal="closeCreateEditModal"
-            :showProfileInput="showProfileInput"
             :createEditModalProps="createEditModalProps"
             :editFunc="editFunc"
-            :tempData="tempUser"
+            :tempData="tempMataPelajaran"
             :resetFunc="resetFunc"
             :form="form"
             :submit="submit"
         />
-        <ModalDelete :deleteMode="deleteMode" :deleteName="deleteName" :deleteToken="deleteToken" :closeDeleteModal="closeDeleteModal" :submit="submit"/>
+        <ModalDelete :deleteMode="deleteMode" :deleteName="deleteName" :deleteToken="deleteKelas" :closeDeleteModal="closeDeleteModal" :submit="submit"/>
         <Notification :successNotification="successNotification" :messageNotification="messageNotification"/>
     </Layout>
 </template>
-
 <script setup>
     import { ref, reactive } from 'vue';
     import { useForm } from "@inertiajs/vue3";
@@ -51,20 +49,20 @@
     import Notification from '../Shared/Notification.vue';
     import History from '../Shared/History.vue';
 
-
     const props = defineProps({
-        userQuery: Object,
-        userPaginate: Object,
+        mataPelajaranQuery: Object,
+        mataPelajaranPaginate: Object,
         filters: Object,
         historyQuery: Object,
+        guruQuery: Object,
     });
 
     const tableProps = {
-        tableHead: ['aksi', 'nama', 'token', 'peran', 'tanggal dibuat'],
+        tableHead: ['aksi', 'nama', 'kelas', 'guru mata pelajaran', 'tanggal dibuat'],
     };
 
     // Search Input & Sort Filter
-    const params = reactive({
+        const params = reactive({
         search: props.filters.search,
         field: props.filters.field,
         direction: props.filters.direction,
@@ -73,18 +71,15 @@
     // Form Value
     const form = useForm({
         id: '',
-        token: '',
-        password: '',
-        peran: '',
         nama: '',
-        image_path: '',
-        previewImage: '',
+        kelas: '',
+        guru_id: '',
     });
 
     const submit = () => {
         if (!buttonClicked.value) {
             if (editMode.value === false && deleteMode.value === false) {
-                form.post('user-create', {
+                form.post('matapelajaran-create', {
                     preserveScroll: true,
                     onSuccess: () => {
                         form.reset();
@@ -98,7 +93,7 @@
                     }
                 });
             } else if (editMode.value) {
-                form.post('user-update', {
+                form.post('matapelajaran-update', {
                     preserveScroll: true,
                     onSuccess: () => {
                         form.reset();
@@ -113,7 +108,7 @@
                 });
             } else {
                 buttonClicked.value = true;
-                form.delete('user-destroy', {
+                form.delete('matapelajaran-destroy', {
                     preserveScroll: true,
                     onSuccess: () => {
                         deleteMode.value = false;
@@ -136,13 +131,13 @@
         createMode.value = false;
         editMode.value = false;
     };
-    
-    const showProfileInput = ref(true);
+
     const createEditModalProps = [
         /*
         Object Notes:
             -> Custom: Boolean (Option for Custom Input for Generate Token)
             -> Selection: Array (Option Value Array for Selection)
+            -> Vueselect: Array (Option Value Array for Vue-Selection)
             -> Name: String (Input Name for Submit)
             -> Display: String (Text to Display)
             -> Type: String (Type of the Input)
@@ -154,41 +149,25 @@
         */
         {
             name: 'nama',
-            display: 'Nama Pengguna',
+            display: 'Nama Mata Pelajaran',
             type: 'text',
-            placeholder: 'Alpha Bobby',
+            placeholder: 'Matematika',
             maxlength: 32,
             required: true,
         },
         {
-            custom: true,
-            name: 'token',
-            display: 'Token',
+            name: 'kelas',
+            display: 'Kelas',
             type: 'text',
-            placeholder: '4DIG',
-            minlength: 4,
-            maxlength: 4,
+            placeholder: '5',
+            maxlength: '2',
             required: true,
         },
         {
-            name: 'password',
-            display: 'Password',
-            type: 'password',
-            placeholder: 'Optional',
-            maxlength: 32,
-            required: false,
-        },
-        {
-            selection: [
-                'Admin',
-                'Guru',
-                'Orang Tua',
-                'Kepala Sekolah',
-            ],
-            name: 'peran',
-            display: 'Peran',
-            placeholder: 'Pilih Peran',
-            required: true,
+            vueselect: props.guruQuery,
+            name: 'guru_id',
+            display: 'Guru Mata Pelajaran',
+            placeholder: 'Pilih guru',
         }
     ];
 
@@ -197,41 +176,36 @@
 
     // Edit Modal Code
     const editMode = ref(false);
-    const tempUser = ref(null);
-    const editFunc = (user) => {
+    const tempMataPelajaran = ref(null);
+    const editFunc = (mataPelajaran) => {
         editMode.value = true;
-        tempUser.value = user;
+        tempMataPelajaran.value = mataPelajaran;
 
-        form.id = user.id;
-        form.token = user.token;
-        form.password = user.password;
-        form.peran = user.peran;
-        form.nama = user.nama;
-        form.image_path = user.image_path;
-        form.previewImage = user.image_path;
-
+        form.id = mataPelajaran.id;
+        form.nama = mataPelajaran.nama;
+        form.kelas = mataPelajaran.kelas;
+        form.guru_id = mataPelajaran?.guru?.nama;
+        
         createMode.value = true;
     };
 
-    const resetFunc = (user) => {
-        form.id = user.id;
-        form.token = user.token;
-        form.password = user.password;
-        form.peran = user.peran;
-        form.nama = user.nama;
-        form.previewImage = user.image_path;
+    const resetFunc = (mataPelajaran) => {
+        form.id = mataPelajaran.id;
+        form.nama = mataPelajaran.nama;
+        form.kelas = mataPelajaran.kelas;
+        form.guru_id = mataPelajaran?.guru?.nama ?? '';
     };
 
     // Delete Modal Code
     const buttonClicked = ref(false);
     const deleteMode = ref(false);
     const deleteName = ref(null);
-    const deleteToken = ref(null);
+    const deleteKelas = ref(null);
 
     const deleteFunc = (row) => {
         deleteMode.value = true;
         deleteName.value = row.nama;
-        deleteToken.value = row.token;
+        deleteKelas.value = row.kelas;
         form.id = row.id;
     };
 

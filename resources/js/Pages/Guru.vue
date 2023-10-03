@@ -1,6 +1,6 @@
 <template>
     <Layout>
-        <div class="mx-auto w-11/12 mt-8 min-h-[87.5%] p-4 px-8 bg-neon-custom-color rounded-lg shadow-2xl font-mono">
+        <div class="mx-auto w-11/12 mt-4 min-h-[87.5%] p-4 px-8 bg-neon-custom-color rounded-lg shadow-2xl font-mono">
             <div class="flex items-center justify-between mb-5">
                 
                 <h1 class="font-mono text-gray-100 text-3xl font-bold my-2">
@@ -27,7 +27,6 @@
             :createMode="createMode"
             :editMode="editMode"
             :closeCreateEditModal="closeCreateEditModal"
-            :showProfileInput="showProfileInput"
             :createEditModalProps="createEditModalProps"
             :editFunc="editFunc"
             :tempData="tempGuru"

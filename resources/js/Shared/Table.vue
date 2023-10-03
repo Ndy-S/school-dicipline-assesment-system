@@ -58,6 +58,9 @@
                                 <span v-else-if="oneTableHead === 'orang tua' || oneTableHead === 'akun guru'">
                                     {{ oneTableData?.user?.nama ? `${oneTableData.user.nama} (${oneTableData.user.token || '-'})` : '-' }}
                                 </span>
+                                <span v-else-if="oneTableHead === 'guru mata pelajaran'">
+                                    {{ oneTableData?.guru?.nama ?? '-' }}
+                                </span>
                                 <span v-else class="flex">{{ oneTableData[oneTableHead] ?? '-' }}</span>
                             </div>
                         </td>

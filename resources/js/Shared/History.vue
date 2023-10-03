@@ -1,6 +1,6 @@
 <template>
-        <div class="right-5 my-6 h-[95%] w-[21.5%] fixed font-mono text-white bg-neon-custom-color rounded-lg overflow-hidden hover:overflow-auto ">
-            <div class="text-2xl uppercase h-fit w-full p-8 text-center border-b-2 border-b-gray-600 font-bold text-gray-200 mb-4">
+        <div class="right-5 my-6 h-[95%] w-[21.5%] fixed font-mono text-white bg-neon-custom-color overflow-hidden hover:overflow-auto ">
+            <div class="text-2xl uppercase h-fit w-full p-8 text-center border-b-2 border-b-gray-500 font-bold text-gray-200 mb-2">
                 {{ historyTitle }}
                 <span>
                     <font-awesome-icon :icon="['fas', 'timeline']" />

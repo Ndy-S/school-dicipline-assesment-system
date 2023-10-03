@@ -1,9 +1,7 @@
 <template>
-    <div class="bg-neon-custom-color h-fit p-4 mx-auto rounded-b-lg w-fit shadow-2xl">
-        <p class="text-yellow-400 font-extrabold uppercase mx-10 text-xl font-mono">
-            <span class="flex items-center">
-                <span>Sistem Kehadiran & Kedisiplinan Siswa</span>
-            </span>
+    <div class="h-fit py-2 rounded-md ml-14 mt-4 mb-2 border border-dashed border-gray-300 w-fit">
+        <p class="text-gray-200 uppercase font-bold mx-10 text-2xl font-mono">
+            <span>Sistem Kedisiplinan Siswa</span>
         </p>
     </div>
 </template>

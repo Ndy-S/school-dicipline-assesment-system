@@ -35,6 +35,11 @@
                     menuLink="guru"
                     menuIcon="chalkboard-user"
                 />
+                <NavMenu 
+                    menuName="Data Mata Pelajaran"
+                    menuLink="matapelajaran"
+                    menuIcon="book"
+                />
                 <NavMenu
                     menuName="Data User"
                     menuLink="user"
