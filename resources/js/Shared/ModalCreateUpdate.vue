@@ -87,7 +87,7 @@
                                 :options="createEditModalProp.vueselect"
                                 :placeholder="createEditModalProp.placeholder"
                                 v-model="form[createEditModalProp.name]"
-                                label="nama"
+                                :label="createEditModalProp.name === 'sop_id' ? 'kategori' : 'nama'"
                                 track-by="id"
                                 class="border border-gray-300 text-gray-600 bg-white text-sm focus:ring-blue-500 focus:border-blue-500 block w-full"
                             />
@@ -100,7 +100,53 @@
                                 :class="{'opacity-50': disabledResetPass, 'hover:bg-dark-custom-color hover:transition-all hover:text-gray-200 focus:ring-2 focus:ring-blue-500': !disabledResetPass}"
                                 :disabled="disabledResetPass"
                                 @click="resetPass()"
-                            >                 
+                            >
+
+                            <textarea
+                                v-else-if="createEditModalProp.textarea"
+                                :id="createEditModalProp.name" 
+                                v-model="form[createEditModalProp.name]" 
+                                :name="createEditModalProp.name" 
+                                :class="{'text-red-900 placeholder-red-700 border border-red-500': form.errors[createEditModalProp.name]}" 
+                                class="bg-gray-700 border border-gray-300 text-gray-50 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
+                                :placeholder="createEditModalProp.placeholder"
+                            />
+
+                            <div v-else-if="createEditModalProp.radiobutton">
+                                <label for="password" class="block text-gray-300 text-sm mb-1">{{ createEditModalProp.radiobutton.display }}</label>
+                                <div class="text-gray-200 mb-2">
+                                    <input 
+                                        type="radio"
+                                        v-model="form[createEditModalProp.radiobutton.radioname]"
+                                        :id="createEditModalProp.radiobutton.radio1id"
+                                        :name="createEditModalProp.radiobutton.radioname" 
+                                        :value="createEditModalProp.radiobutton.radio1id"
+                                        class="mr-1" 
+                                        checked 
+                                        @click="showVselect = false"
+                                    >
+                                    <label :for="createEditModalProp.radiobutton.radio1id" class="mr-4">{{ createEditModalProp.radiobutton.radio1display }}</label>
+
+                                    <input 
+                                        type="radio" 
+                                        v-model="form[createEditModalProp.radiobutton.radioname]"
+                                        :id="createEditModalProp.radiobutton.radio2id" 
+                                        :name="createEditModalProp.radiobutton.radioname" 
+                                        :value="createEditModalProp.radiobutton.radio2id"
+                                        class="mr-1" 
+                                        @click="showVselect = true">
+                                    <label :for="createEditModalProp.radiobutton.radio2id" class="mr-4">{{ createEditModalProp.radiobutton.radio2display }}</label>    
+                                </div>
+                                <v-select  
+                                    v-show="showVselect"
+                                    :options="createEditModalProp.radiovueselect"
+                                    :placeholder="createEditModalProp.placeholder"
+                                    v-model="form[createEditModalProp.name]"
+                                    label="nama"
+                                    track-by="id"
+                                    class="border border-gray-300 text-gray-600 bg-white text-sm focus:ring-blue-500 focus:border-blue-500 block w-full"
+                                />
+                            </div>
                                     
                             <input 
                                 v-else
@@ -178,6 +224,8 @@
         form: Object,
         submit: Function,
     });
+
+    const showVselect = ref(false);
 
     // Preview Image
     const fileInput = ref(null);

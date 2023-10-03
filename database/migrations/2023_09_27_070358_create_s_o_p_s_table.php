@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('s_o_p_s', function (Blueprint $table) {
             $table->id();
+            $table->string('kategori');
+            $table->text('deskripsi')->nullable();
+            $table->text('sanksi')->nullable();
             $table->timestamps();
         });
     }

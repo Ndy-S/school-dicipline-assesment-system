@@ -4,16 +4,16 @@
             <div class="flex items-center justify-between mb-5">
                 
                 <h1 class="font-mono text-gray-100 text-3xl font-bold my-2">
-                    <font-awesome-icon :icon="['fas', 'people-roof']" />
-                    <span> Tabel Data Guru</span>
+                    <font-awesome-icon :icon="['fas', 'table']" />
+                    <span> Tabel Data SOP & Peraturan</span>
                 </h1>
 
-                <ButtonSearch :dataPaginate="guruPaginate" :params="params" :openCreateModal="openCreateModal"/>
+                <ButtonSearch :dataPaginate="SOPPaginate" :params="params" :openCreateModal="openCreateModal"/>
             </div>
 
             <Table 
                 :tableHead="tableProps.tableHead" 
-                :tablePaginate="guruPaginate"
+                :tablePaginate="SOPPaginate"
                 :tableFilters="filters"
                 :params="params"
                 :editFunc="editFunc"
@@ -29,12 +29,14 @@
             :closeCreateEditModal="closeCreateEditModal"
             :createEditModalProps="createEditModalProps"
             :editFunc="editFunc"
-            :tempData="tempGuru"
+            :tempData="tempSOP"
             :resetFunc="resetFunc"
             :form="form"
             :submit="submit"
         />
-        <ModalDelete :deleteMode="deleteMode" :deleteName="deleteName" :deleteToken="deleteToken" :deleteNoInduk="deleteNIP" :closeDeleteModal="closeDeleteModal" :submit="submit"/>
+        <ModalDelete :deleteMode="deleteMode" :deleteName="deleteName" 
+        :deleteToken="deleteToken"
+        :closeDeleteModal="closeDeleteModal" :submit="submit"/>
         <Notification :successNotification="successNotification" :messageNotification="messageNotification"/>
     </Layout>
 </template>
@@ -51,15 +53,14 @@
     import History from '../Shared/History.vue';
 
     const props = defineProps({
-        guruQuery: Object,
-        guruPaginate: Object,
+        SOPQuery: Object,
+        SOPPaginate: Object,
         filters: Object,
         historyQuery: Object,
-        userQuery: Object,
     });
 
     const tableProps = {
-        tableHead: ['aksi', 'nama', 'nip', 'gender', 'piket', 'akun guru', 'alamat', 'handphone', 'tanggal dibuat'],
+        tableHead: ['aksi', 'kategori', 'deskripsi', 'sanksi', 'tanggal dibuat'],
     };
 
     // Search Input & Sort Filter
@@ -72,19 +73,15 @@
     // Form Value
     const form = useForm({
         id: '',
-        nama: '',
-        nip: '',
-        gender: '',
-        piket: '',
-        alamat: '',
-        handphone: '',
-        user_id: '',
+        kategori: '',
+        deskripsi: '',
+        sanksi: '',
     });
 
     const submit = () => {
         if (!buttonClicked.value) {
             if (editMode.value === false && deleteMode.value === false) {
-                form.post('guru-create', {
+                form.post('sop-create', {
                     preserveScroll: true,
                     onSuccess: () => {
                         form.reset();
@@ -98,7 +95,7 @@
                     }
                 });
             } else if (editMode.value) {
-                form.post('guru-update', {
+                form.post('sop-update', {
                     preserveScroll: true,
                     onSuccess: () => {
                         form.reset();
@@ -113,7 +110,7 @@
                 });
             } else {
                 buttonClicked.value = true;
-                form.delete('guru-destroy', {
+                form.delete('sop-destroy', {
                     preserveScroll: true,
                     onSuccess: () => {
                         deleteMode.value = false;
@@ -136,7 +133,7 @@
         createMode.value = false;
         editMode.value = false;
     };
-
+    
     const createEditModalProps = [
         /*
         Object Notes:
@@ -154,109 +151,64 @@
             -> Required: Boolean (Input Required)
         */
         {
-            name: 'nama',
-            display: 'Nama Guru',
+            name: 'kategori',
+            display: 'Kategori Pelanggaran',
             type: 'text',
-            placeholder: 'Alpha Bobby',
+            placeholder: 'Pelanggaran Disiplin',
             maxlength: 32,
             required: true,
         },
         {
-            name: 'nip',
-            display: 'Nomor Induk Pegawai (NIP)',
-            type: 'number',
-            placeholder: '551923',
-            maxlength: 32,
-            required: true
+            textarea: true,
+            name: 'deskripsi',
+            display: 'Deskripsi Pelanggaran',
+            placeholder: 'Pelanggaran berupa...',
         },
         {
-            selection: [
-                'Laki-laki',
-                'Perempuan',
-            ],
-            name: 'gender',
-            display: 'Gender/Jenis Kelamin',
-            placeholder: 'Pilih jenis kelamin',
-            required: true,
+            textarea: true,
+            name: 'sanksi',
+            display: 'Sanksi Pelanggaran',
+            placeholder: 'Peringatan terhadap siswa',
         },
-        {
-            selection: [
-                'Senin',
-                'Selasa',
-                'Rabu',
-                'Kamis',
-                'Jumat',
-                'Sabtu',
-            ],
-            name: 'piket',
-            display: 'Jadwal Piket',
-            placeholder: 'Pilih jadwal piket',
-        },
-        {
-            vueselect: props.userQuery,
-            name: 'user_id',
-            display: 'Akun Guru',
-            placeholder: 'Pilih akun guru'
-        },
-        {
-            name: 'alamat',
-            display: 'Alamat',
-            type: 'string',
-            placeholder: 'Jalan Pegangsaan Timur No. 56'
-        },
-        {
-            name: 'handphone',
-            display: 'No. Handphone',
-            type: 'string',
-            placeholder: '0821 xxxx xxxx'
-        }
     ];
 
+    
     // Create Modal Code
     const createMode = ref(false);
 
     // Edit Modal Code
     const editMode = ref(false);
-    const tempGuru = ref(null);
-    const editFunc = (guru) => {
+    const tempSOP = ref(null);
+    const editFunc = (SOP) => {
         editMode.value = true;
-        tempGuru.value = guru;
+        tempSOP.value = SOP;
 
-        form.id = guru.id;
-        form.nama = guru.nama;
-        form.nip = guru.nip;
-        form.gender = guru.gender;
-        form.piket = guru.piket ?? '';
-        form.alamat = guru.alamat;
-        form.handphone = guru.handphone;
-        form.user_id = guru?.user?.nama;
-
+        form.id = SOP.id;
+        form.kategori = SOP.kategori;
+        form.deskripsi = SOP.deskripsi;
+        form.sanksi = SOP.sanksi;
+        
         createMode.value = true;
     };
 
-    const resetFunc = (guru) => {
-        form.id = guru.id;
-        form.nama = guru.nama;
-        form.nip = guru.nip;
-        form.gender = guru.gender;
-        form.piket = guru.piket ?? '';
-        form.alamat = guru.alamat ?? '';
-        form.handphone = guru.handphone ?? '';
-        form.user_id = guru?.user?.nama ?? '';
+    const resetFunc = (SOP) => {
+        form.id = SOP.id;
+        form.kategori = SOP.kategori;
+        form.deskripsi = SOP.deskripsi;
+        form.sanksi = SOP.sanksi;
     };
+
 
     // Delete Modal Code
     const buttonClicked = ref(false);
     const deleteMode = ref(false);
     const deleteName = ref(null);
     const deleteToken = ref(null);
-    const deleteNIP = ref(null);
 
     const deleteFunc = (row) => {
         deleteMode.value = true;
-        deleteName.value = row.nama;
-        deleteToken.value = row?.user?.token;
-        deleteNIP.value = row.nip;
+        deleteName.value = row.kategori;
+        deleteToken.value = '-';
         form.id = row.id;
     };
 

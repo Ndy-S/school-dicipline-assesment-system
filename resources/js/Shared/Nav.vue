@@ -26,17 +26,27 @@
                     menuIcon="chart-line"
                 />
                 <NavMenu 
-                    menuName="Data Siswa"
+                    menuName="Pelanggaran Siswa"
+                    menuLink="pelanggaran"
+                    menuIcon="person-circle-exclamation"
+                />
+                <NavMenu 
+                    menuName="SOP & Peraturan"
+                    menuLink="sop"
+                    menuIcon="scale-balanced"
+                />
+                <NavMenu 
+                    menuName="Siswa"
                     menuLink="siswa"
                     menuIcon="graduation-cap"
                 />
                 <NavMenu 
-                    menuName="Data Guru"
+                    menuName="Guru"
                     menuLink="guru"
                     menuIcon="chalkboard-user"
                 />
                 <NavMenu 
-                    menuName="Data Mata Pelajaran"
+                    menuName="Mata Pelajaran"
                     menuLink="matapelajaran"
                     menuIcon="book"
                 />

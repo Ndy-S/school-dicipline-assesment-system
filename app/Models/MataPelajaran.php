@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Guru;
+use App\Models\Pelanggaran;
 
 class MataPelajaran extends Model
 {
@@ -16,5 +17,9 @@ class MataPelajaran extends Model
 
     public function guru() {
         return $this->belongsTo(Guru::class);
+    }
+
+    public function pelanggarans() {
+        return $this->hasMany(Pelanggaran::class);
     }
 }

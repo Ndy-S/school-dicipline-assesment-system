@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PelanggaranController;
+use App\Http\Controllers\SOPController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\MataPelajaranController;
@@ -28,6 +30,16 @@ Route::post('logout', [LoginController::class, 'logout'])->middleware('auth');
 Route::middleware('auth')->group(function () {
     Route::get('/', [Controller::class, 'dashboard']);
     Route::get('dashboard', [Controller::class, 'dashboard'])->name('dashboard');
+
+    Route::get('pelanggaran', [PelanggaranController::class, 'index']);
+    Route::post('pelanggaran-create', [PelanggaranController::class, 'create']);
+    Route::post('pelanggaran-update', [PelanggaranController::class, 'update']);
+    Route::delete('pelanggaran-destroy', [PelanggaranController::class, 'destroy']);
+
+    Route::get('sop', [SOPController::class, 'index']);
+    Route::post('sop-create', [SOPController::class, 'create']);
+    Route::post('sop-update', [SOPController::class, 'update']);
+    Route::delete('sop-destroy', [SOPController::class, 'destroy']);
 
     Route::get('siswa', [SiswaController::class, 'index']);
     Route::post('siswa-create', [SiswaController::class, 'create']);

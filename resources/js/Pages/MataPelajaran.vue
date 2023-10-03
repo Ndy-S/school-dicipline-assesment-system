@@ -135,6 +135,7 @@
     const createEditModalProps = [
         /*
         Object Notes:
+            -> Textarea: Boolean (Descriptive Text)
             -> Custom: Boolean (Option for Custom Input for Generate Token)
             -> Selection: Array (Option Value Array for Selection)
             -> Vueselect: Array (Option Value Array for Vue-Selection)
@@ -205,7 +206,7 @@
     const deleteFunc = (row) => {
         deleteMode.value = true;
         deleteName.value = row.nama;
-        deleteKelas.value = row.kelas;
+        deleteKelas.value = 'Kelas ' + row.kelas;
         form.id = row.id;
     };
 

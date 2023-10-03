@@ -4,16 +4,16 @@
             <div class="flex items-center justify-between mb-5">
                 
                 <h1 class="font-mono text-gray-100 text-3xl font-bold my-2">
-                    <font-awesome-icon :icon="['fas', 'people-roof']" />
-                    <span> Tabel Data Guru</span>
+                    <font-awesome-icon :icon="['fas', 'table']" />
+                    <span> Tabel Data Pelanggaran</span>
                 </h1>
 
-                <ButtonSearch :dataPaginate="guruPaginate" :params="params" :openCreateModal="openCreateModal"/>
+                <ButtonSearch :dataPaginate="pelanggaranPaginate" :params="params" :openCreateModal="openCreateModal"/>
             </div>
 
             <Table 
                 :tableHead="tableProps.tableHead" 
-                :tablePaginate="guruPaginate"
+                :tablePaginate="pelanggaranPaginate"
                 :tableFilters="filters"
                 :params="params"
                 :editFunc="editFunc"
@@ -29,12 +29,12 @@
             :closeCreateEditModal="closeCreateEditModal"
             :createEditModalProps="createEditModalProps"
             :editFunc="editFunc"
-            :tempData="tempGuru"
+            :tempData="tempPelanggaran"
             :resetFunc="resetFunc"
             :form="form"
             :submit="submit"
         />
-        <ModalDelete :deleteMode="deleteMode" :deleteName="deleteName" :deleteToken="deleteToken" :deleteNoInduk="deleteNIP" :closeDeleteModal="closeDeleteModal" :submit="submit"/>
+        <ModalDelete :deleteMode="deleteMode" :deleteName="deleteName" :deleteToken="deleteToken" :closeDeleteModal="closeDeleteModal" :submit="submit"/>
         <Notification :successNotification="successNotification" :messageNotification="messageNotification"/>
     </Layout>
 </template>
@@ -51,15 +51,18 @@
     import History from '../Shared/History.vue';
 
     const props = defineProps({
-        guruQuery: Object,
-        guruPaginate: Object,
+        pelanggaranQuery: Object,
+        pelanggaranPaginate: Object,
         filters: Object,
         historyQuery: Object,
-        userQuery: Object,
+        guruQuery: Object,
+        siswaQuery: Object,
+        mataPelajaranQuery: Object,
+        SOPQuery: Object,
     });
 
     const tableProps = {
-        tableHead: ['aksi', 'nama', 'nip', 'gender', 'piket', 'akun guru', 'alamat', 'handphone', 'tanggal dibuat'],
+        tableHead: ['aksi', 'tanggal dibuat'],
     };
 
     // Search Input & Sort Filter
@@ -72,19 +75,20 @@
     // Form Value
     const form = useForm({
         id: '',
-        nama: '',
-        nip: '',
-        gender: '',
-        piket: '',
-        alamat: '',
-        handphone: '',
-        user_id: '',
+        siswa_id: '',
+        sop_id: '',
+        deskripsi: '',
+        sanksi: '',
+        guru_id: '',
+        jenis: '',
+        mata_pelajaran_id: '',
+        bukti_path: '',
     });
 
     const submit = () => {
         if (!buttonClicked.value) {
             if (editMode.value === false && deleteMode.value === false) {
-                form.post('guru-create', {
+                form.post('pelanggaran-create', {
                     preserveScroll: true,
                     onSuccess: () => {
                         form.reset();
@@ -98,7 +102,7 @@
                     }
                 });
             } else if (editMode.value) {
-                form.post('guru-update', {
+                form.post('pelanggaran-update', {
                     preserveScroll: true,
                     onSuccess: () => {
                         form.reset();
@@ -113,7 +117,7 @@
                 });
             } else {
                 buttonClicked.value = true;
-                form.delete('guru-destroy', {
+                form.delete('pelanggaran-destroy', {
                     preserveScroll: true,
                     onSuccess: () => {
                         deleteMode.value = false;
@@ -154,61 +158,48 @@
             -> Required: Boolean (Input Required)
         */
         {
-            name: 'nama',
-            display: 'Nama Guru',
-            type: 'text',
-            placeholder: 'Alpha Bobby',
-            maxlength: 32,
-            required: true,
+            vueselect: props.siswaQuery,
+            name: 'siswa_id',
+            display: 'Siswa',
+            placeholder: 'Pilih siswa'
         },
         {
-            name: 'nip',
-            display: 'Nomor Induk Pegawai (NIP)',
-            type: 'number',
-            placeholder: '551923',
-            maxlength: 32,
-            required: true
+            vueselect: props.SOPQuery,
+            name: 'sop_id',
+            display: 'Kategori Pelanggaran',
+            placeholder: 'Pilih kategori pelanggaran'
         },
         {
-            selection: [
-                'Laki-laki',
-                'Perempuan',
-            ],
-            name: 'gender',
-            display: 'Gender/Jenis Kelamin',
-            placeholder: 'Pilih jenis kelamin',
-            required: true,
+            textarea: true,
+            name: 'deskripsi',
+            display: 'Deskripsi Pelanggaran',
+            placeholder: 'Pelanggaran berupa...',
         },
         {
-            selection: [
-                'Senin',
-                'Selasa',
-                'Rabu',
-                'Kamis',
-                'Jumat',
-                'Sabtu',
-            ],
-            name: 'piket',
-            display: 'Jadwal Piket',
-            placeholder: 'Pilih jadwal piket',
+            textarea: true,
+            name: 'sanksi',
+            display: 'Sanksi Pelanggaran',
+            placeholder: 'Peringatan terhadap siswa',
         },
         {
-            vueselect: props.userQuery,
-            name: 'user_id',
-            display: 'Akun Guru',
-            placeholder: 'Pilih akun guru'
+            vueselect: props.guruQuery,
+            name: 'guru_id',
+            display: 'Guru',
+            placeholder: 'Pilih guru'
         },
         {
-            name: 'alamat',
-            display: 'Alamat',
-            type: 'string',
-            placeholder: 'Jalan Pegangsaan Timur No. 56'
-        },
-        {
-            name: 'handphone',
-            display: 'No. Handphone',
-            type: 'string',
-            placeholder: '0821 xxxx xxxx'
+            radiobutton: {
+                display: 'Jenis Pelanggaran',
+                radioname: 'jenis',
+                radio1id: 'sekolah',
+                radio1display: 'Pelanggaran Sekolah',
+                radio2id: 'kelas',
+                radio2display: 'Pelanggaran Kelas',
+            },
+            name: 'jenis',
+            radiovueselect: props.mataPelajaranQuery,
+            placeholder: 'Pilih mata pelajaran',
+            name: 'mata_pelajaran_id',
         }
     ];
 
@@ -217,32 +208,27 @@
 
     // Edit Modal Code
     const editMode = ref(false);
-    const tempGuru = ref(null);
-    const editFunc = (guru) => {
+    const tempPelanggaran = ref(null);
+    const editFunc = (pelanggaran) => {
         editMode.value = true;
-        tempGuru.value = guru;
+        tempPelanggaran.value = pelanggaran;
 
-        form.id = guru.id;
-        form.nama = guru.nama;
-        form.nip = guru.nip;
-        form.gender = guru.gender;
-        form.piket = guru.piket ?? '';
-        form.alamat = guru.alamat;
-        form.handphone = guru.handphone;
-        form.user_id = guru?.user?.nama;
+        form.id = pelanggaran.id;
+        
 
         createMode.value = true;
     };
 
-    const resetFunc = (guru) => {
-        form.id = guru.id;
-        form.nama = guru.nama;
-        form.nip = guru.nip;
-        form.gender = guru.gender;
-        form.piket = guru.piket ?? '';
-        form.alamat = guru.alamat ?? '';
-        form.handphone = guru.handphone ?? '';
-        form.user_id = guru?.user?.nama ?? '';
+    const resetFunc = (siswa) => {
+        form.id = siswa.id;
+        form.nama = siswa.nama;
+        form.nis = siswa.nis;
+        form.kelas = siswa.kelas;
+        form.gender = siswa.gender;
+        form.agama = siswa.agama ?? '';
+        form.alamat = siswa.alamat ?? '';
+        form.handphone = siswa.handphone ?? '';
+        form.user_id = siswa?.user?.nama ?? '';
     };
 
     // Delete Modal Code
@@ -250,13 +236,11 @@
     const deleteMode = ref(false);
     const deleteName = ref(null);
     const deleteToken = ref(null);
-    const deleteNIP = ref(null);
 
     const deleteFunc = (row) => {
         deleteMode.value = true;
-        deleteName.value = row.nama;
-        deleteToken.value = row?.user?.token;
-        deleteNIP.value = row.nip;
+        deleteName.value = row?.siswa?.nama;
+        deleteToken.value = row?.sop?.kategori;
         form.id = row.id;
     };
 

@@ -141,6 +141,7 @@
     const createEditModalProps = [
         /*
         Object Notes:
+            -> Textarea: Boolean (Descriptive Text)
             -> Custom: Boolean (Option for Custom Input for Generate Token)
             -> Selection: Array (Option Value Array for Selection)
             -> Vueselect: Array (Option Value Array for Vue-Selection)
