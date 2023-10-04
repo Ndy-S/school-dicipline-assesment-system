@@ -1,5 +1,7 @@
-# Project Setup Guide
-## Prerequisites
+# Project Overview
+<img src="https://github.com/Ndy-S/school-dicipline-assesment-system/blob/main/public/img/overview.png" alt="Project Overview">
+
+## Project Setup Guide Prerequisites
 Before you begin, ensure that you have the following software installed on your system:
 - Apache
 - PHP
