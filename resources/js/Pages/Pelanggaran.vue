@@ -61,8 +61,6 @@
         SOPQuery: Object,
     });
 
-    console.log(props.pelanggaranPaginate.data[0])
-
     const tableProps = {
         tableHead: ['aksi', 'siswa', 'kategori pelanggaran', 'deskripsi', 'sanksi', 'guru', 'jenis', 'mata pelajaran' ,'tanggal dibuat'],
     };
@@ -253,7 +251,7 @@
     const deleteFunc = (row) => {
         deleteMode.value = true;
         deleteName.value = row?.siswa?.nama;
-        deleteToken.value = row?.sop?.kategori;
+        deleteToken.value = row?.s_o_p?.kategori;
         form.id = row.id;
     };
 

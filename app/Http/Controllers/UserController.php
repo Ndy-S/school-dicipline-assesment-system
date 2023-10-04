@@ -82,50 +82,41 @@ class UserController extends Controller
     }
 
     public function create(Request $request) {
-        try {
-            $attributes = $this->dataProcess($request);
+        $attributes = $this->dataProcess($request);
 
-            $user = User::create($attributes);
+        $user = User::create($attributes);
 
-            $history = History::create([
-                'user_id' => Auth::id(),
-                'nama_tabel' => 'data user',
-                'jenis' => 'tambah',
-                'nama_data' => $attributes['nama'],
-                'token_data' => $attributes['token'],
-            ]);
+        $history = History::create([
+            'user_id' => Auth::id(),
+            'nama_tabel' => 'data user',
+            'jenis' => 'tambah',
+            'nama_data' => $attributes['nama'],
+            'token_data' => $attributes['token'],
+        ]);
 
-            return back()->withInput();
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        return back()->withInput();
     }
 
     public function update(Request $request) {
-        try {
-            $attributes = $this->dataProcess($request);
+        $attributes = $this->dataProcess($request);
 
-            $user = User::findOrFail($attributes['id']);
-
-            $image_path = public_path("img/{$user->image_path}");
-
-            if (!str_contains($image_path ,'default.png') && $attributes["image_path"] != $user->image_path) {
-                unlink($image_path);
-            }
-            $user->update($attributes);
-
-            $history = History::create([
-                'user_id' => Auth::id(),
-                'nama_tabel' => 'data user',
-                'jenis' => 'ubah',
-                'nama_data' => $attributes['nama'],
-                'token_data' => $attributes['token'],
-            ]);
-
-            return back()->withInput();
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+        $user = User::findOrFail($attributes['id']);
+        $image_path = public_path("img/{$user->image_path}");
+        
+        if (!str_contains($image_path ,'default.png') && $attributes["image_path"] != $user->image_path) {
+            unlink($image_path);
         }
+        $user->update($attributes);
+
+        $history = History::create([
+            'user_id' => Auth::id(),
+            'nama_tabel' => 'data user',
+            'jenis' => 'ubah',
+            'nama_data' => $attributes['nama'],
+            'token_data' => $attributes['token'],
+        ]);
+
+        return back()->withInput();
     }
 
     public function destroy(Request $request) {

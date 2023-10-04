@@ -55,6 +55,7 @@
                         id="password"
                         v-model="form.password"
                         class="w-full py-2 px-4 text-gray-100 border border-gray-300 bg-slate-700 rounded-lg"
+                        :class="{'opacity-50': !showPassword}"
                         placeholder="Password telah dienkripsi"
                         :required="showPassword"
                         :disabled="!showPassword"

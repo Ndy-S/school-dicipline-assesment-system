@@ -78,45 +78,36 @@ class GuruController extends Controller
     }
 
     public function create(Request $request) {
-        try {
-            $attributes = $this->dataProcess($request);
+        $attributes = $this->dataProcess($request);
 
-            $guru = Guru::create($attributes);
+        $guru = Guru::create($attributes);
 
-            $history = History::create([
-                'user_id' => Auth::id(),
-                'nama_tabel' => 'data guru',
-                'jenis' => 'tambah',
-                'nama_data' => $attributes['nama'],
-                'token_data' => $attributes['nip'],
-            ]);
+        $history = History::create([
+            'user_id' => Auth::id(),
+            'nama_tabel' => 'data guru',
+            'jenis' => 'tambah',
+            'nama_data' => $attributes['nama'],
+            'token_data' => $attributes['nip'],
+        ]);
 
-            return back()->withInput();
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        return back()->withInput();
     }
     
     public function update(Request $request) {
-        try {
-            $attributes = $this->dataProcess($request);
+        $attributes = $this->dataProcess($request);
 
-            $guru = Guru::findOrFail($attributes['id']);
+        $guru = Guru::findOrFail($attributes['id']);
+        $guru->update($attributes);
+        
+        $history = History::create([
+            'user_id' => Auth::id(),
+            'nama_tabel' => 'data guru',
+            'jenis' => 'ubah',
+            'nama_data' => $attributes['nama'],
+            'token_data' => $attributes['nip'],
+        ]);
 
-            $guru->update($attributes);
-
-            $history = History::create([
-                'user_id' => Auth::id(),
-                'nama_tabel' => 'data guru',
-                'jenis' => 'ubah',
-                'nama_data' => $attributes['nama'],
-                'token_data' => $attributes['nip'],
-            ]);
-
-            return back()->withInput();
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        return back()->withInput();
     }
 
     public function destroy(Request $request) {

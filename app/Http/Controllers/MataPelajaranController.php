@@ -70,45 +70,36 @@ class MataPelajaranController extends Controller
     }
 
     public function create(Request $request) {
-        try {
-            $attributes = $this->dataProcess($request);
+        $attributes = $this->dataProcess($request);
 
-            $mataPelajaran = MataPelajaran::create($attributes);
+        $mataPelajaran = MataPelajaran::create($attributes);
 
-            $history = History::create([
-                'user_id' => Auth::id(),
-                'nama_tabel' => 'data mata pelajaran',
-                'jenis' => 'tambah',
-                'nama_data' => $attributes['nama'],
-                'token_data' => 'Kelas ' .$attributes['kelas'],
-            ]);
+        $history = History::create([
+            'user_id' => Auth::id(),
+            'nama_tabel' => 'data mata pelajaran',
+            'jenis' => 'tambah',
+            'nama_data' => $attributes['nama'],
+            'token_data' => 'Kelas ' .$attributes['kelas'],
+        ]);
 
-            return back()->withInput();
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        return back()->withInput();
     }
 
     public function update(Request $request) {
-        try {
-            $attributes = $this->dataProcess($request);
+        $attributes = $this->dataProcess($request);
+        
+        $mataPelajaran = MataPelajaran::findOrFail($attributes['id']);
+        $mataPelajaran->update($attributes);
 
-            $mataPelajaran = MataPelajaran::findOrFail($attributes['id']);
+        $history = History::create([
+            'user_id' => Auth::id(),
+            'nama_tabel' => 'data mata pelajaran',
+            'jenis' => 'ubah',
+            'nama_data' => $attributes['nama'],
+            'token_data' => 'Kelas ' .$attributes['kelas'],
+        ]);
 
-            $mataPelajaran->update($attributes);
-
-            $history = History::create([
-                'user_id' => Auth::id(),
-                'nama_tabel' => 'data mata pelajaran',
-                'jenis' => 'ubah',
-                'nama_data' => $attributes['nama'],
-                'token_data' => 'Kelas ' .$attributes['kelas'],
-            ]);
-
-            return back()->withInput();
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        return back()->withInput();
     }
 
     public function destroy(Request $request) {

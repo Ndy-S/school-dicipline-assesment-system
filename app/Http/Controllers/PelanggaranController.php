@@ -90,75 +90,63 @@ class PelanggaranController extends Controller
     }
 
     public function create(Request $request) {
-        try {
-            $request->validate([
-                'siswa_id' => 'required',
-                's_o_p_id' => 'required',
-                'guru_id' => 'required',
-                'jenis' => 'required'
-            ]);
+        $request->validate([
+            'siswa_id' => 'required',
+            's_o_p_id' => 'required',
+            'guru_id' => 'required',
+            'jenis' => 'required'
+        ]);
 
-            $attributes = $this->dataProcess($request);
+        $attributes = $this->dataProcess($request);
 
-            $history = History::create([
-                'user_id' => Auth::id(),
-                'nama_tabel' => 'data pelanggaran',
-                'jenis' => 'tambah',
-                'nama_data' => $attributes['siswa_id']['nama'],
-                'token_data' => $attributes['s_o_p_id']['kategori'],
-            ]);
+        $history = History::create([
+            'user_id' => Auth::id(),
+            'nama_tabel' => 'data pelanggaran',
+            'jenis' => 'tambah',
+            'nama_data' => $attributes['siswa_id']['nama'],
+            'token_data' => $attributes['s_o_p_id']['kategori'],
+        ]);
 
-            $attributes['siswa_id'] = $attributes['siswa_id']['id'];
-            $attributes['s_o_p_id'] = $attributes['s_o_p_id']['id'];
-            $attributes['guru_id'] = $attributes['guru_id']['id'];
+        $attributes['siswa_id'] = $attributes['siswa_id']['id'];
+        $attributes['s_o_p_id'] = $attributes['s_o_p_id']['id'];
+        $attributes['guru_id'] = $attributes['guru_id']['id'];
 
-            $pelanggaran = Pelanggaran::create($attributes);
+        $pelanggaran = Pelanggaran::create($attributes);
 
-            return back()->withInput();
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        return back()->withInput();
     }
 
     public function update(Request $request) {
-        try {
-            $request->validate([
-                'siswa_id' => 'required',
-                's_o_p_id' => 'required',
-                'guru_id' => 'required',
-                'jenis' => 'required'
-            ]);
+        $request->validate([
+            'siswa_id' => 'required',
+            's_o_p_id' => 'required',
+            'guru_id' => 'required',
+            'jenis' => 'required'
+        ]);
 
-            $attributes = $this->dataProcess($request);
-
-            foreach ($attributes as $field => $value) {
-                if (($field == 'siswa_id' || $field == 's_o_p_id' || $field == 'guru_id') && is_string($value)) {
-                    unset($attributes[$field]);
-                } else if (!is_null($value) && ($field == 'siswa_id' || $field == 's_o_p_id' || $field == 'guru_id')) {
-                    $attributes[$field] = $value['id'];
-                } else if ($field == 'jenis' && $value == 'Sekolah') {
-                    $attributes['mata_pelajaran_id'] = null;
-                }
+        $attributes = $this->dataProcess($request);
+        foreach ($attributes as $field => $value) {
+            if (($field == 'siswa_id' || $field == 's_o_p_id' || $field == 'guru_id') && is_string($value)) {
+                unset($attributes[$field]);
+            } else if (!is_null($value) && ($field == 'siswa_id' || $field == 's_o_p_id' || $field == 'guru_id')) {
+                $attributes[$field] = $value['id'];
+            } else if ($field == 'jenis' && $value == 'Sekolah') {
+                $attributes['mata_pelajaran_id'] = null;
             }
-
-
-            // Might be changed
-            $pelanggaran = Pelanggaran::with('siswa')->with('s_o_p')->findOrFail($attributes['id']);
-
-            $pelanggaran->update($attributes);
-
-            $history = History::create([
-                'user_id' => Auth::id(),
-                'nama_tabel' => 'data pelanggaran',
-                'jenis' => 'ubah',
-                'nama_data' => $pelanggaran->siswa->nama,
-                'token_data' => $pelanggaran->s_o_p->kategori,
-            ]);
-
-            return back()->withInput();
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);   
         }
+        
+        // Might be changed
+        $pelanggaran = Pelanggaran::with('siswa')->with('s_o_p')->findOrFail($attributes['id']);
+        $pelanggaran->update($attributes);
+        $history = History::create([
+            'user_id' => Auth::id(),
+            'nama_tabel' => 'data pelanggaran',
+            'jenis' => 'ubah',
+            'nama_data' => $pelanggaran->siswa->nama,
+            'token_data' => $pelanggaran->s_o_p->kategori,
+        ]);
+
+        return back()->withInput();
     }
     
     public function destroy(Request $request) {

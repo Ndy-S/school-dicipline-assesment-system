@@ -3,14 +3,14 @@
         <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
         <div class="modal-container bg-slate-700 w-1/2 md:max-w-screen-lg mx-auto rounded shadow-lg z-50 overflow-y-auto">
             <div class="modal-content py-4 text-left px-6 shadow">
-                <form @submit.prevent="submit()" enctype="multipart/form-data">
+                <form @submit.prevent="submit(); showVselect = false" enctype="multipart/form-data">
                     <div class="flex justify-between items-center pb-3 mb-10">
                         <font-awesome-icon :icon="['fas', 'toolbox']" class="w-6 h-6 text-white mr-4"/>
                         <p class="text-2xl font-bold text-white">{{ !editMode ? 'Modal Tambah Data' : 'Modal Ubah Data'}}</p>
                         <button 
                             type="reset"
                             class="modal-close cursor-pointer z-50 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-full text-sm p-1.5 ml-auto inline-flex items-center" 
-                            @click="closeCreateEditModal(); disabledResetPass = false"
+                            @click="closeCreateEditModal(); disabledResetPass = false; showVselect = false"
                         >
                             <font-awesome-icon :icon="['fas', 'xmark']" class="w-5 h-5" />
                         </button>
@@ -40,13 +40,13 @@
                                 @input="pickFile" 
                                 id="image_path" 
                                 accept="image/*" 
-                                :class="{'text-red-900 placeholder-red-700 border border-red-500': form.errors.image_path}" 
+                                :class="{'text-red-500 placeholder-red-400 border border-red-500': form.errors.image_path}" 
                                 class="bg-gray-700 border border-gray-300 text-gray-50  right-0 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             />
                             <div
                                 v-if="form.errors.image_path"
                                 v-text="form.errors.image_path"
-                                class="text-red-700 text-sm mt-1"
+                                class="text-red-400 text-sm mt-1"
                             >
                             </div>
                         </div>
@@ -108,7 +108,7 @@
                                 :id="createEditModalProp.name" 
                                 v-model="form[createEditModalProp.name]" 
                                 :name="createEditModalProp.name" 
-                                :class="{'text-red-900 placeholder-red-700 border border-red-500': form.errors[createEditModalProp.name]}" 
+                                :class="{'text-red-500 placeholder-red-400 border border-red-500': form.errors[createEditModalProp.name]}" 
                                 class="bg-gray-700 border border-gray-300 text-gray-50 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
                                 :placeholder="createEditModalProp.placeholder"
                             />
@@ -116,6 +116,11 @@
                             <div v-else-if="createEditModalProp.radiobutton">
                                 <label for="password" class="block text-gray-300 text-sm mb-1">{{ createEditModalProp.radiobutton.display }}</label>
                                 <div class="text-gray-200 mb-2">
+                                    <!-- If else statement for selected options -->
+                                    <div class="hidden">
+                                        {{ form[createEditModalProp.radiobutton.radioname] == 'Kelas' ? showVselect = true : showVselect = false }}
+                                    </div>
+
                                     <input 
                                         type="radio"
                                         v-model="form[createEditModalProp.radiobutton.radioname]"
@@ -124,10 +129,10 @@
                                         :value="createEditModalProp.radiobutton.radio1id"
                                         class="mr-1" 
                                         required
-                                        @click="showVselect = false"
+                                        checked
+                                        @click="showVselect = false; form[createEditModalProp.name] = '';"
                                     >
                                     <label :for="createEditModalProp.radiobutton.radio1id" class="mr-4">{{ createEditModalProp.radiobutton.radio1display }}</label>
-
                                     <input 
                                         type="radio" 
                                         v-model="form[createEditModalProp.radiobutton.radioname]"
@@ -139,13 +144,14 @@
                                     <label :for="createEditModalProp.radiobutton.radio2id" class="mr-4">{{ createEditModalProp.radiobutton.radio2display }}</label>    
                                 </div>
                                 <v-select  
-                                    v-show="showVselect"
                                     :options="createEditModalProp.radiovueselect"
                                     :placeholder="createEditModalProp.placeholder"
                                     v-model="form[createEditModalProp.name]"
                                     label="label"
                                     track-by="id"
                                     class="bg-gray-700 border border-gray-300 text-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full"
+                                    :class="{'opacity-50': !showVselect}"
+                                    :disabled="!showVselect"
                                 />
                             </div>
                                     
@@ -155,7 +161,7 @@
                                 :id="createEditModalProp.name" 
                                 v-model="form[createEditModalProp.name]" 
                                 :name="createEditModalProp.name" 
-                                :class="{'text-red-900 placeholder-red-700 border border-red-500': form.errors[createEditModalProp.name], 'uppercase': createEditModalProp.custom}" 
+                                :class="{'text-red-500 placeholder-red-400 border border-red-500': form.errors[createEditModalProp.name], 'uppercase': createEditModalProp.custom}" 
                                 class="bg-gray-700 border border-gray-300 text-gray-50 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
                                 :placeholder="createEditModalProp.placeholder"
                                 :minlength="createEditModalProp.minlength"
@@ -167,7 +173,7 @@
                         <div
                             v-if="form.errors[createEditModalProp.name]"
                             v-text="form.errors[createEditModalProp.name]"
-                            class="text-red-700 text-sm mt-1"
+                            class="text-red-400 text-sm mt-1"
                         >
                         </div>
                     </div>
@@ -183,7 +189,7 @@
                         v-if="editMode"
                         :type="button"
                         class="text-gray-200 bg-red-700 hover:bg-red-800 focus:ring-2 focus:outline-none focus:ring-red-300 font-semibold rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-                        @click="checkbox = false; resetFunc(tempData); disabledResetPass = false;"
+                        @click="checkbox = false; resetFunc(tempData); disabledResetPass = false; showVselect = false"
                     >
                         Reset
                     </button>
@@ -191,7 +197,7 @@
                         v-else
                         type="reset"
                         class="text-gray-200 bg-red-700 hover:bg-red-800 focus:ring-2 focus:outline-none focus:ring-red-300 font-semibold rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-                        @click="form.reset()"
+                        @click="form.reset(); showVselect = false"
                     >
                         Reset
                     </button>
@@ -280,5 +286,12 @@
 
     --vs-dropdown-option--active-bg: #2c334e;
     --vs-dropdown-option--active-color: #eeeeee;
+    }
+</style>
+
+<style>
+    :root {
+        --vs-state-disabled-bg: #181f2e;
+        --vs-state-disabled-cursor: not-allowed;
     }
 </style>

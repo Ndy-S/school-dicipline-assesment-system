@@ -82,45 +82,36 @@ class SiswaController extends Controller
 
 
     public function create(Request $request) {
-        try {
-            $attributes = $this->dataProcess($request);
+        $attributes = $this->dataProcess($request);
 
-            $siswa = Siswa::create($attributes);
+        $siswa = Siswa::create($attributes);
 
-            $history = History::create([
-                'user_id' => Auth::id(),
-                'nama_tabel' => 'data siswa',
-                'jenis' => 'tambah',
-                'nama_data' => $attributes['nama'],
-                'token_data' => $attributes['nis'],
-            ]);
+        $history = History::create([
+            'user_id' => Auth::id(),
+            'nama_tabel' => 'data siswa',
+            'jenis' => 'tambah',
+            'nama_data' => $attributes['nama'],
+            'token_data' => $attributes['nis'],
+        ]);
 
-            return back()->withInput();
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        return back()->withInput();
     }
 
     public function update(Request $request) {
-        try {
-            $attributes = $this->dataProcess($request);
+        $attributes = $this->dataProcess($request);
 
-            $siswa = Siswa::findOrFail($attributes['id']);
+        $siswa = Siswa::findOrFail($attributes['id']);
+        $siswa->update($attributes);
 
-            $siswa->update($attributes);
-
-            $history = History::create([
-                'user_id' => Auth::id(),
-                'nama_tabel' => 'data siswa',
-                'jenis' => 'ubah',
-                'nama_data' => $attributes['nama'],
-                'token_data' => $attributes['nis'],
-            ]);
-
-            return back()->withInput();
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        $history = History::create([
+            'user_id' => Auth::id(),
+            'nama_tabel' => 'data siswa',
+            'jenis' => 'ubah',
+            'nama_data' => $attributes['nama'],
+            'token_data' => $attributes['nis'],
+        ]);
+        
+        return back()->withInput();
     }
 
     public function destroy(Request $request) {

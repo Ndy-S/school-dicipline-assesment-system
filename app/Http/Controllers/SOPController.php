@@ -65,45 +65,36 @@ class SOPController extends Controller
     }
 
     public function create(Request $request) {
-        try {
-            $attributes = $this->dataProcess($request);
+        $attributes = $this->dataProcess($request);
 
-            $SOP = SOP::create($attributes);
+        $SOP = SOP::create($attributes);
 
-            $history = History::create([
-                'user_id' => Auth::id(),
-                'nama_tabel' => 'data SOP & peraturan',
-                'jenis' => 'tambah',
-                'nama_data' => $attributes['kategori'],
-                'token_data' => '-',
-            ]);
+        $history = History::create([
+            'user_id' => Auth::id(),
+            'nama_tabel' => 'data SOP & peraturan',
+            'jenis' => 'tambah',
+            'nama_data' => $attributes['kategori'],
+            'token_data' => '-',
+        ]);
 
-            return back()->withInput();
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        return back()->withInput();
     }
 
     public function update(Request $request) {
-        try {
-            $attributes = $this->dataProcess($request);
+        $attributes = $this->dataProcess($request);
+        
+        $SOP = SOP::findOrFail($attributes['id']);
+        $SOP->update($attributes);
 
-            $SOP = SOP::findOrFail($attributes['id']);
+        $history = History::create([
+            'user_id' => Auth::id(),
+            'nama_tabel' => 'data SOP & peraturan',
+            'jenis' => 'ubah',
+            'nama_data' => $attributes['kategori'],
+            'token_data' => '-',
+        ]);
 
-            $SOP->update($attributes);
-
-            $history = History::create([
-                'user_id' => Auth::id(),
-                'nama_tabel' => 'data SOP & peraturan',
-                'jenis' => 'ubah',
-                'nama_data' => $attributes['kategori'],
-                'token_data' => '-',
-            ]);
-
-            return back()->withInput();
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        return back()->withInput();
     }
     
     public function destroy(Request $request) {
