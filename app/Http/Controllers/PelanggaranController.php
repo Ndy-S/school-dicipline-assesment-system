@@ -70,7 +70,6 @@ class PelanggaranController extends Controller
                 'deskripsi',
                 'sanksi',
                 'mata_pelajaran_id',
-                'bukti_path'
             ];
 
             foreach($nullableFields as $field) {
@@ -81,6 +80,21 @@ class PelanggaranController extends Controller
                 } else if (!is_null($request->input($field))) {
                     $attributes = array_merge($attributes, [$field => $request->input($field)]);
                 } 
+            }
+
+            if ($request->file('bukti_path')) {
+                $request->validate([
+                    'bukti_path' => 'image|max:2048',
+                ]);
+
+                $image = $request->file('bukti_path');
+                $extension = strtolower($image->getClientOriginalExtension());
+                $image_name = md5(uniqid($image->getClientOriginalName(), true) . time()) . '.' . $extension;
+                $attributes['bukti_path'] = $image_name;
+                $image->move('./bukti/', $image_name);
+                return $attributes;
+            } else if ($request->bukti_path) {
+                return array_merge($attributes, ['bukti_path' => $request->input('bukti_path')]);
             }
 
             return $attributes;
@@ -125,6 +139,7 @@ class PelanggaranController extends Controller
         ]);
 
         $attributes = $this->dataProcess($request);
+
         foreach ($attributes as $field => $value) {
             if (($field == 'siswa_id' || $field == 's_o_p_id' || $field == 'guru_id') && is_string($value)) {
                 unset($attributes[$field]);
@@ -137,7 +152,14 @@ class PelanggaranController extends Controller
         
         // Might be changed
         $pelanggaran = Pelanggaran::with('siswa')->with('s_o_p')->findOrFail($attributes['id']);
+        $bukti_path = public_path("bukti/{$pelanggaran->bukti_path}");
+
+        if (!str_contains($bukti_path ,'none.webp') && $attributes["bukti_path"] != $pelanggaran->bukti_path) {
+            unlink($bukti_path);
+        }
+
         $pelanggaran->update($attributes);
+
         $history = History::create([
             'user_id' => Auth::id(),
             'nama_tabel' => 'data pelanggaran',
@@ -152,6 +174,11 @@ class PelanggaranController extends Controller
     public function destroy(Request $request) {
         try {
             $pelanggaran = Pelanggaran::findOrFail($request->id);
+
+            $bukti_path = public_path("bukti/{$pelanggaran->bukti_path}");
+            if (!str_contains($bukti_path ,'none.webp')) {
+                unlink($bukti_path);
+            }
 
             Pelanggaran::destroy($pelanggaran->id);
 

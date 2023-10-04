@@ -70,8 +70,21 @@
                                 <span v-else-if="oneTableHead === 'mata pelajaran'">
                                     {{ oneTableData?.mata_pelajaran?.nama ? `${oneTableData.mata_pelajaran.nama} (Kelas ${oneTableData.mata_pelajaran.kelas || '-'})` : '-' }}
                                 </span>
+                                <a
+                                    v-else-if="oneTableHead === 'bukti dokumentasi' && oneTableData['bukti_path']"
+                                    :href="`/bukti/${oneTableData['bukti_path']}`"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <img
+                                        :src="`/bukti/${oneTableData['bukti_path']}`"
+                                        class="w-6 h-6 rounded-sm"
+                                        alt="Image"
+                                    >
+                                </a>
                                 <span v-else class="flex">{{ oneTableData[oneTableHead] ?? '-' }}</span>
                             </div>
+
                         </td>
                     </tr>
                     <tr v-else>

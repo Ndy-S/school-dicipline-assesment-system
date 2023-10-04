@@ -62,7 +62,7 @@
     });
 
     const tableProps = {
-        tableHead: ['aksi', 'siswa', 'kategori pelanggaran', 'deskripsi', 'sanksi', 'guru', 'jenis', 'mata pelajaran' ,'tanggal dibuat'],
+        tableHead: ['aksi', 'siswa', 'kategori pelanggaran', 'deskripsi', 'sanksi', 'guru', 'jenis', 'mata pelajaran', 'bukti dokumentasi' ,'tanggal dibuat'],
     };
 
     // Search Input & Sort Filter
@@ -204,6 +204,10 @@
             radiovueselect: props.mataPelajaranQuery,
             placeholder: 'Pilih mata pelajaran',
             name: 'mata_pelajaran_id',
+        },
+        {
+            name: 'bukti_path',
+            display: 'Bukti Dokumentasi',
         }
     ];
 

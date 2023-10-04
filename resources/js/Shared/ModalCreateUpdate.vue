@@ -4,7 +4,7 @@
         <div class="modal-container bg-slate-700 w-1/2 md:max-w-screen-lg mx-auto rounded shadow-lg z-50 overflow-y-auto">
             <div class="modal-content py-4 text-left px-6 shadow">
                 <form @submit.prevent="submit(); showVselect = false" enctype="multipart/form-data">
-                    <div class="flex justify-between items-center pb-3 mb-10">
+                    <div class="flex justify-between items-center pb-3 mb-4">
                         <font-awesome-icon :icon="['fas', 'toolbox']" class="w-6 h-6 text-white mr-4"/>
                         <p class="text-2xl font-bold text-white">{{ !editMode ? 'Modal Tambah Data' : 'Modal Ubah Data'}}</p>
                         <button 
@@ -129,7 +129,6 @@
                                         :value="createEditModalProp.radiobutton.radio1id"
                                         class="mr-1" 
                                         required
-                                        checked
                                         @click="showVselect = false; form[createEditModalProp.name] = '';"
                                     >
                                     <label :for="createEditModalProp.radiobutton.radio1id" class="mr-4">{{ createEditModalProp.radiobutton.radio1display }}</label>
@@ -154,6 +153,17 @@
                                     :disabled="!showVselect"
                                 />
                             </div>
+
+                            <input 
+                                v-else-if="createEditModalProp.name === 'bukti_path'"
+                                type="file"
+                                :name="createEditModalProp.name" 
+                                :id="createEditModalProp.name"
+                                accept="image/*" 
+                                @input="pickBuktiFile"
+                                :class="{'text-red-500 placeholder-red-400 border border-red-500': form.errors.image_path}" 
+                                class="bg-gray-700 border border-gray-300 text-gray-50  right-0 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
+                            />
                                     
                             <input 
                                 v-else
@@ -246,6 +256,17 @@
             };
             reader.readAsDataURL(file[0]);
             props.form.image_path = file[0];
+        }
+    };
+
+    // Bukti Dokumentasi Pick
+    const pickBuktiFile = (e) => {
+        const input = e.target;
+        const file = input.files;
+        if (file && file[0]) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file[0]);
+            props.form.bukti_path = file[0];
         }
     };
 
