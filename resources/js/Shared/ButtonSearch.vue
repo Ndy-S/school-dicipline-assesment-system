@@ -1,5 +1,5 @@
 <template>
-    <div class="w-fit flex items-center">
+    <div class="w-fit flex items-center" v-if="canCreate">
         <button 
             class="flex items-center justify-center px-4 py-2 rounded-l-md text-gray-100 border border-gray-500 hover:bg-white hover:text-black hover:transition-all"
             @click="openCreateModal"    
@@ -15,6 +15,15 @@
             class="flex-grow p-2 rounded-r-md border border-gray-500"
         />
     </div>
+    <div class="w-fit flex items-center" v-else>
+        <input 
+            type="search" 
+            v-model="params.search"
+            aria-label="Search" 
+            placeholder="Search..." 
+            class="flex-grow p-2 rounded-lg border border-gray-500"
+        />
+    </div>
 </template>
 
 <script setup>
@@ -26,6 +35,7 @@
         dataPaginate: Object,
         params: Object,
         openCreateModal: Function,
+        canCreate: Boolean,
     });
 
     const params = props.params;

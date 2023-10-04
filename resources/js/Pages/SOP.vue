@@ -1,5 +1,5 @@
 <template>
-    <Layout>
+    <Layout :can="can">
         <div class="mx-auto w-11/12 mt-4 min-h-[87.5%] p-4 px-8 bg-neon-custom-color rounded-lg shadow-2xl font-mono">
             <div class="flex items-center justify-between mb-5">
                 
@@ -8,7 +8,7 @@
                     <span> Tabel Data SOP & Peraturan</span>
                 </h1>
 
-                <ButtonSearch :dataPaginate="SOPPaginate" :params="params" :openCreateModal="openCreateModal"/>
+                <ButtonSearch :dataPaginate="SOPPaginate" :params="params" :openCreateModal="openCreateModal" :canCreate="can.createSOP"/>
             </div>
 
             <Table 
@@ -18,6 +18,7 @@
                 :params="params"
                 :editFunc="editFunc"
                 :deleteFunc="deleteFunc"
+                :canCreate="can.createSOP"
             />
         </div>
 
@@ -57,10 +58,14 @@
         SOPPaginate: Object,
         filters: Object,
         historyQuery: Object,
+        can: Object,
     });
+    console.log(props.can.updateSOP)
+    
+    const commonColumns = ['kategori', 'deskripsi', 'sanksi', 'tanggal dibuat'];
 
     const tableProps = {
-        tableHead: ['aksi', 'kategori', 'deskripsi', 'sanksi', 'tanggal dibuat'],
+        tableHead: props.can.createSOP ? ['aksi', ...commonColumns] : commonColumns,
     };
 
     // Search Input & Sort Filter

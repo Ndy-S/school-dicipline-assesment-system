@@ -31,35 +31,37 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [Controller::class, 'dashboard']);
     Route::get('dashboard', [Controller::class, 'dashboard'])->name('dashboard');
 
-    Route::get('pelanggaran', [PelanggaranController::class, 'index']);
-    Route::post('pelanggaran-create', [PelanggaranController::class, 'create']);
-    Route::post('pelanggaran-update', [PelanggaranController::class, 'update']);
-    Route::delete('pelanggaran-destroy', [PelanggaranController::class, 'destroy']);
+    Route::get('pelanggaran', [PelanggaranController::class, 'index'])->middleware(['can:viewAny,App\Models\Pelanggaran']);
+    Route::post('pelanggaran-create', [PelanggaranController::class, 'create'])->middleware(['can:create,App\Models\Pelanggaran']);
+    Route::post('pelanggaran-update', [PelanggaranController::class, 'update'])->middleware(['can:create,App\Models\Pelanggaran']);
+    Route::delete('pelanggaran-destroy', [PelanggaranController::class, 'destroy'])->middleware(['can:create,App\Models\Pelanggaran']);
 
-    Route::get('sop', [SOPController::class, 'index']);
-    Route::post('sop-create', [SOPController::class, 'create']);
-    Route::post('sop-update', [SOPController::class, 'update']);
-    Route::delete('sop-destroy', [SOPController::class, 'destroy']);
+    Route::get('sop', [SOPController::class, 'index'])->middleware(['can:viewAny,App\Models\SOP']);
+    Route::post('sop-create', [SOPController::class, 'create'])->middleware(['can:create,App\Models\SOP']);
+    Route::post('sop-update', [SOPController::class, 'update'])->middleware(['can:create,App\Models\SOP']);
+    Route::delete('sop-destroy', [SOPController::class, 'destroy'])->middleware(['can:create,App\Models\SOP']);
 
-    Route::get('siswa', [SiswaController::class, 'index']);
-    Route::post('siswa-create', [SiswaController::class, 'create']);
-    Route::post('siswa-update', [SiswaController::class, 'update']);
-    Route::delete('siswa-destroy', [SiswaController::class, 'destroy']);
+    Route::get('siswa', [SiswaController::class, 'index'])->middleware(['can:viewAny,App\Models\Siswa']);
+    Route::post('siswa-create', [SiswaController::class, 'create'])->middleware(['can:create,App\Models\Siswa']);
+    Route::post('siswa-update', [SiswaController::class, 'update'])->middleware(['can:create,App\Models\Siswa']);
+    Route::delete('siswa-destroy', [SiswaController::class, 'destroy'])->middleware(['can:create,App\Models\Siswa']);
 
-    Route::get('guru', [GuruController::class, 'index']);
-    Route::post('guru-create', [GuruController::class, 'create']);
-    Route::post('guru-update', [GuruController::class, 'update']);
-    Route::delete('guru-destroy', [GuruController::class, 'destroy']);
+    Route::get('guru', [GuruController::class, 'index'])->middleware(['can:viewAny,App\Models\Guru']);
+    Route::post('guru-create', [GuruController::class, 'create'])->middleware(['can:create,App\Models\Guru']);
+    Route::post('guru-update', [GuruController::class, 'update'])->middleware(['can:create,App\Models\Guru']);
+    Route::delete('guru-destroy', [GuruController::class, 'destroy'])->middleware(['can:create,App\Models\Guru']);
 
-    Route::get('matapelajaran', [MataPelajaranController::class, 'index']);
-    Route::post('matapelajaran-create', [MataPelajaranController::class, 'create']);
-    Route::post('matapelajaran-update', [MataPelajaranController::class, 'update']);
-    Route::delete('matapelajaran-destroy', [MataPelajaranController::class, 'destroy']);
+    Route::get('matapelajaran', [MataPelajaranController::class, 'index'])->middleware(['can:viewAny,App\Models\MataPelajaran']);
+    Route::post('matapelajaran-create', [MataPelajaranController::class, 'create'])->middleware(['can:create,App\Models\MataPelajaran']);
+    Route::post('matapelajaran-update', [MataPelajaranController::class, 'update'])->middleware(['can:create,App\Models\MataPelajaran']);
+    Route::delete('matapelajaran-destroy', [MataPelajaranController::class, 'destroy'])->middleware(['can:create,App\Models\MataPelajaran']);
 
-    Route::get('user', [UserController::class, 'index']);
-    Route::post('user-create', [UserController::class, 'create']);
-    Route::post('user-update', [UserController::class, 'update']);
-    Route::delete('user-destroy', [UserController::class, 'destroy']);
+    Route::middleware(['can:viewAny,App\Models\User'])->group(function () {
+        Route::get('user', [UserController::class, 'index']);
+        Route::post('user-create', [UserController::class, 'create']);
+        Route::post('user-update', [UserController::class, 'update']);
+        Route::delete('user-destroy', [UserController::class, 'destroy']);
+    });    
 
     Route::get('profile', [ProfileController::class, 'index']);
     Route::post('profile-update', [ProfileController::class, 'update']);

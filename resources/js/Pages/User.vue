@@ -1,5 +1,5 @@
 <template>
-    <Layout>
+    <Layout :can="can">
         <div class="mx-auto w-11/12 mt-4 min-h-[87.5%] p-4 px-8 bg-neon-custom-color rounded-lg shadow-2xl font-mono">
             <div class="flex items-center justify-between mb-5">
                 
@@ -8,7 +8,7 @@
                     <span> Tabel Data User</span>
                 </h1>
 
-                <ButtonSearch :dataPaginate="userPaginate" :params="params" :openCreateModal="openCreateModal"/>
+                <ButtonSearch :dataPaginate="userPaginate" :params="params" :openCreateModal="openCreateModal" :canCreate="can.viewUser"/>
             </div>
 
             <Table 
@@ -18,6 +18,7 @@
                 :params="params"
                 :editFunc="editFunc"
                 :deleteFunc="deleteFunc"
+                :canCreate="can.viewUser"
             />
         </div>
 
@@ -57,6 +58,7 @@
         userPaginate: Object,
         filters: Object,
         historyQuery: Object,
+        can: Object,
     });
 
     const tableProps = {

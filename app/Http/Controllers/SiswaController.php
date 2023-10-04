@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
 use App\Models\User;
 use App\Models\Siswa;
 use App\Models\History;
+use App\Models\MataPelajaran;
+use App\Models\Pelanggaran;
+use App\Models\SOP;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -44,6 +48,15 @@ class SiswaController extends Controller
                 $user['label'] = $user->nama. ' (' .$user->token . ')';
                 return $user;
             }),
+            'can' => [
+                'viewUser' => Auth::user()->can('viewAny', User::class),
+                'viewSiswa' => Auth::user()->can('viewAny', Siswa:: class),
+                'viewGuru' => Auth::user()->can('viewAny', Guru:: class),
+                'viewMataPelajaran' => Auth::user()->can('viewAny', MataPelajaran:: class),
+                'viewSOP' => Auth::user()->can('viewAny', SOP:: class),
+                'viewPelanggaran' => Auth::user()->can('viewAny', Pelanggaran::class),
+                'createSiswa' => Auth::user()->can('create', Siswa::class),
+            ]
         ]);
     }
 

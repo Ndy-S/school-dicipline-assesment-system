@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
 use App\Models\SOP;
 use App\Models\History;
+use App\Models\MataPelajaran;
+use App\Models\Pelanggaran;
+use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -34,6 +38,15 @@ class SOPController extends Controller
             'SOPPaginate' => $SOPQuery->orderBy('created_at', 'desc')->paginate('10')->withQueryString(),
             'filters' => request()->all(['search', 'field', 'direction']),
             'historyQuery' => History::query()->where('nama_tabel', 'data SOP & peraturan')->with('user')->orderBy('created_at', 'desc')->get(),
+            'can' => [
+                'viewUser' => Auth::user()->can('viewAny', User::class),
+                'viewSiswa' => Auth::user()->can('viewAny', Siswa:: class),
+                'viewGuru' => Auth::user()->can('viewAny', Guru:: class),
+                'viewMataPelajaran' => Auth::user()->can('viewAny', MataPelajaran:: class),
+                'viewSOP' => Auth::user()->can('viewAny', SOP:: class),
+                'viewPelanggaran' => Auth::user()->can('viewAny', Pelanggaran::class),
+                'createSOP' => Auth::user()->can('create', SOP::class),
+            ]
         ]);
     }
 

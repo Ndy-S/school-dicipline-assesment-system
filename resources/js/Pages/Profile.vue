@@ -1,5 +1,5 @@
 <template>
-    <Layout>
+    <Layout :can="can"> 
         <div class="mx-auto w-11/12 mt-4 min-h-[30%] p-4 px-8 bg-neon-custom-color rounded-lg shadow-2xl font-mono flex">
             <div class="flex items-center justify-center w-fit h-full">
             <img :src="'img/' + (userProfile.image_path || 'default.png')" class="h-48 rounded-lg drop-shadow-lg">
@@ -91,6 +91,7 @@
         userProfile: Object,
         historyQuery: Object,
         createdBy: Object,
+        can: Object,
     });
 
     const showPassword = ref(false);

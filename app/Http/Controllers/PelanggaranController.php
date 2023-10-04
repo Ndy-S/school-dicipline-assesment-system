@@ -53,6 +53,15 @@ class PelanggaranController extends Controller
                 $sop['label'] = $sop->kategori;
                 return $sop;
             }),
+            'can' => [
+                'viewUser' => Auth::user()->can('viewAny', User::class),
+                'viewSiswa' => Auth::user()->can('viewAny', Siswa:: class),
+                'viewGuru' => Auth::user()->can('viewAny', Guru:: class),
+                'viewMataPelajaran' => Auth::user()->can('viewAny', MataPelajaran:: class),
+                'viewSOP' => Auth::user()->can('viewAny', SOP:: class),
+                'viewPelanggaran' => Auth::user()->can('viewAny', Pelanggaran::class),
+                'createPelanggaran' => Auth::user()->can('create', Pelanggaran::class),
+            ]
         ]);
     }
 

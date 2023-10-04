@@ -1,5 +1,5 @@
 <template>
-    <Layout>
+    <Layout :can="can">
 
         <Development />
         <History :historyQuery="historyQuery" historyTitle="Aktivitas Sistem"/>
@@ -14,6 +14,6 @@
 
     const props = defineProps({
         historyQuery: Object,
-    });
-   
+        can: Object,
+    });   
 </script>

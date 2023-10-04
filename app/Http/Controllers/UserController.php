@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
 use App\Models\User;
 use App\Models\History;
+use App\Models\MataPelajaran;
+use App\Models\Pelanggaran;
+use App\Models\Siswa;
+use App\Models\SOP;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -34,6 +39,14 @@ class UserController extends Controller
             'userPaginate' => $userQuery->orderBy('created_at', 'desc')->paginate('10')->withQueryString(),
             'filters' => request()->all(['search', 'field', 'direction']),
             'historyQuery' => History::query()->where('nama_tabel', 'data user')->with('user')->orderBy('created_at', 'desc')->get(),
+            'can' => [
+                'viewUser' => Auth::user()->can('viewAny', User::class),
+                'viewSiswa' => Auth::user()->can('viewAny', Siswa:: class),
+                'viewGuru' => Auth::user()->can('viewAny', Guru:: class),
+                'viewMataPelajaran' => Auth::user()->can('viewAny', MataPelajaran:: class),
+                'viewSOP' => Auth::user()->can('viewAny', SOP:: class),
+                'viewPelanggaran' => Auth::user()->can('viewAny', Pelanggaran::class),
+            ]
         ]);    
     }
 

@@ -1,5 +1,5 @@
 <template>
-    <Layout>
+    <Layout :can="can">
         <div class="mx-auto w-11/12 mt-4 min-h-[87.5%] p-4 px-8 bg-neon-custom-color rounded-lg shadow-2xl font-mono">
             <div class="flex items-center justify-between mb-5">
                 
@@ -8,7 +8,7 @@
                     <span> Tabel Data Pelanggaran</span>
                 </h1>
 
-                <ButtonSearch :dataPaginate="pelanggaranPaginate" :params="params" :openCreateModal="openCreateModal"/>
+                <ButtonSearch :dataPaginate="pelanggaranPaginate" :params="params" :openCreateModal="openCreateModal" :canCreate="can.createPelanggaran"/>
             </div>
 
             <Table 
@@ -18,6 +18,7 @@
                 :params="params"
                 :editFunc="editFunc"
                 :deleteFunc="deleteFunc"
+                :canCreate="can.createPelanggaran"
             />
         </div>
 
@@ -59,10 +60,13 @@
         siswaQuery: Object,
         mataPelajaranQuery: Object,
         SOPQuery: Object,
+        can: Object,
     });
 
+    const commonColumns = [ 'siswa', 'kategori pelanggaran', 'deskripsi', 'sanksi', 'guru', 'jenis', 'mata pelajaran', 'bukti dokumentasi' ,'tanggal dibuat'];
+
     const tableProps = {
-        tableHead: ['aksi', 'siswa', 'kategori pelanggaran', 'deskripsi', 'sanksi', 'guru', 'jenis', 'mata pelajaran', 'bukti dokumentasi' ,'tanggal dibuat'],
+        tableHead: props.can.createPelanggaran ? ['aksi', ...commonColumns] : commonColumns,
     };
 
     // Search Input & Sort Filter

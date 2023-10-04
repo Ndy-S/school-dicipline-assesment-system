@@ -43,7 +43,7 @@
                                     :src="`/img/${oneTableData['image_path']}`"
                                     class="w-6 flex mr-4 rounded-full"
                                 >
-                                <span v-if="oneTableHead === 'aksi'">
+                                <span v-if="oneTableHead === 'aksi' && canCreate">
                                     <button title="Ubah" @click="editFunc(oneTableData)">
                                         <font-awesome-icon :icon="['fas', 'pen-clip']" style="color: paleturquoise;"/>
                                     </button>
@@ -127,6 +127,7 @@
         params: Object,
         editFunc: Function,
         deleteFunc: Function,
+        canCreate: Boolean,
     });
 
     const formatDate = (dateString) => {

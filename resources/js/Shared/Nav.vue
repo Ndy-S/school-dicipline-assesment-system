@@ -25,32 +25,38 @@
                     menuLink="dashboard"
                     menuIcon="chart-line"
                 />
-                <NavMenu 
+                <NavMenu
+                    v-if="can.viewSiswa"
                     menuName="Siswa"
                     menuLink="siswa"
                     menuIcon="graduation-cap"
                 />
                 <NavMenu 
+                    v-if="can.viewGuru"
                     menuName="Guru"
                     menuLink="guru"
                     menuIcon="chalkboard-user"
                 />
                 <NavMenu 
+                    v-if="can.viewMataPelajaran"
                     menuName="Mata Pelajaran"
                     menuLink="matapelajaran"
                     menuIcon="book"
                 />
-                <NavMenu 
+                <NavMenu
+                    v-if="can.viewSOP"
                     menuName="SOP & Peraturan"
                     menuLink="sop"
                     menuIcon="scale-balanced"
                 />
                 <NavMenu 
+                    v-if="can.viewPelanggaran"
                     menuName="Pelanggaran Siswa"
                     menuLink="pelanggaran"
                     menuIcon="person-circle-exclamation"
                 />
                 <NavMenu
+                    v-if="can.viewUser"
                     menuName="Data User"
                     menuLink="user"
                     menuIcon="id-card-clip"
@@ -85,4 +91,8 @@
 
 <script setup>
     import NavMenu from '../Shared/NavMenu.vue';
+
+    const props = defineProps({
+        can: Object
+    });
 </script>

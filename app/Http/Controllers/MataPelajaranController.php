@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\MataPelajaran;
 use App\Models\Guru;
 use App\Models\History;
+use App\Models\Pelanggaran;
+use App\Models\Siswa;
+use App\Models\SOP;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +41,15 @@ class MataPelajaranController extends Controller
                 $guru['label'] = $guru->nama. ' (' .$guru->nip . ')';
                 return $guru;
             }),
+            'can' => [
+                'viewUser' => Auth::user()->can('viewAny', User::class),
+                'viewSiswa' => Auth::user()->can('viewAny', Siswa:: class),
+                'viewGuru' => Auth::user()->can('viewAny', Guru:: class),
+                'viewMataPelajaran' => Auth::user()->can('viewAny', MataPelajaran:: class),
+                'viewSOP' => Auth::user()->can('viewAny', SOP:: class),
+                'viewPelanggaran' => Auth::user()->can('viewAny', Pelanggaran::class),
+                'createMataPelajaran' => Auth::user()->can('create', MataPelajaran::class),
+            ]
         ]);
     }
 
