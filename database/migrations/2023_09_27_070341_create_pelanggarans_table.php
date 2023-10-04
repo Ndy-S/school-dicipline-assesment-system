@@ -19,11 +19,11 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Siswa::class)->nullOnDelete()->cascadeOnUpdate();
             $table->foreignIdFor(SOP::class)->nullOnDelete()->cascadeOnUpdate();
-            $table->text('deskripsi');
-            $table->string('sanksi');
+            $table->text('deskripsi')->nullable();
+            $table->string('sanksi')->nullable();
             $table->foreignIdFor(Guru::class)->nullOnDelete()->cascadeOnUpdate();
-            $table->enum('jenis', ['kelas', 'sekolah']);
-            $table->foreignIdFor(MataPelajaran::class)->cascadeOnUpdate();
+            $table->enum('jenis', ['Kelas', 'Sekolah']);
+            $table->foreignIdFor(MataPelajaran::class)->nullable()->cascadeOnUpdate();
             $table->string('bukti_path')->default('none.webp');
             $table->timestamps();
         });

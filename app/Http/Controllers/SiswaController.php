@@ -40,7 +40,10 @@ class SiswaController extends Controller
             'siswaPaginate' => $siswaQuery->with('user')->orderBy('created_at', 'desc')->paginate('10')->withQueryString(),
             'filters' => request()->all(['search', 'field', 'direction']),
             'historyQuery' => History::query()->where('nama_tabel', 'data siswa')->with('user')->orderBy('created_at', 'desc')->get(),
-            'userQuery' => User::query()->where('peran', 'Orang Tua')->get(),
+            'userQuery' => User::query()->where('peran', 'Orang Tua')->orderBy('nama', 'asc')->orderBy('token', 'asc')->get()->map(function ($user) {
+                $user['label'] = $user->nama. ' (' .$user->token . ')';
+                return $user;
+            }),
         ]);
     }
 

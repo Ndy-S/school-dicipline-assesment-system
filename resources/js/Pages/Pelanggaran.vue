@@ -61,8 +61,10 @@
         SOPQuery: Object,
     });
 
+    console.log(props.pelanggaranPaginate.data[0])
+
     const tableProps = {
-        tableHead: ['aksi', 'tanggal dibuat'],
+        tableHead: ['aksi', 'siswa', 'kategori pelanggaran', 'deskripsi', 'sanksi', 'guru', 'jenis', 'mata pelajaran' ,'tanggal dibuat'],
     };
 
     // Search Input & Sort Filter
@@ -76,7 +78,7 @@
     const form = useForm({
         id: '',
         siswa_id: '',
-        sop_id: '',
+        s_o_p_id: '',
         deskripsi: '',
         sanksi: '',
         guru_id: '',
@@ -141,6 +143,7 @@
         editMode.value = false;
     };
 
+
     const createEditModalProps = [
         /*
         Object Notes:
@@ -161,13 +164,15 @@
             vueselect: props.siswaQuery,
             name: 'siswa_id',
             display: 'Siswa',
-            placeholder: 'Pilih siswa'
+            placeholder: 'Pilih siswa',
+            required: true,
         },
         {
             vueselect: props.SOPQuery,
-            name: 'sop_id',
+            name: 's_o_p_id',
             display: 'Kategori Pelanggaran',
-            placeholder: 'Pilih kategori pelanggaran'
+            placeholder: 'Pilih kategori pelanggaran',
+            required: true,
         },
         {
             textarea: true,
@@ -185,15 +190,16 @@
             vueselect: props.guruQuery,
             name: 'guru_id',
             display: 'Guru',
-            placeholder: 'Pilih guru'
+            placeholder: 'Pilih guru',
+            required: true,
         },
         {
             radiobutton: {
                 display: 'Jenis Pelanggaran',
                 radioname: 'jenis',
-                radio1id: 'sekolah',
+                radio1id: 'Sekolah',
                 radio1display: 'Pelanggaran Sekolah',
-                radio2id: 'kelas',
+                radio2id: 'Kelas',
                 radio2display: 'Pelanggaran Kelas',
             },
             name: 'jenis',
@@ -214,21 +220,28 @@
         tempPelanggaran.value = pelanggaran;
 
         form.id = pelanggaran.id;
-        
+        form.siswa_id = pelanggaran?.siswa?.nama;
+        form.s_o_p_id = pelanggaran?.s_o_p?.kategori;
+        form.deskripsi = pelanggaran.deskripsi;
+        form.sanksi = pelanggaran.sanksi;
+        form.guru_id = pelanggaran?.guru?.nama;
+        form.jenis = pelanggaran.jenis;
+        form.mata_pelajaran_id = pelanggaran?.mata_pelajaran?.nama ?? '';
+        form.bukti_path = pelanggaran.bukti_path;
 
         createMode.value = true;
     };
 
-    const resetFunc = (siswa) => {
-        form.id = siswa.id;
-        form.nama = siswa.nama;
-        form.nis = siswa.nis;
-        form.kelas = siswa.kelas;
-        form.gender = siswa.gender;
-        form.agama = siswa.agama ?? '';
-        form.alamat = siswa.alamat ?? '';
-        form.handphone = siswa.handphone ?? '';
-        form.user_id = siswa?.user?.nama ?? '';
+    const resetFunc = (pelanggaran) => {
+        form.id = pelanggaran.id;
+        form.siswa_id = pelanggaran?.siswa?.nama;
+        form.s_o_p_id = pelanggaran?.s_o_p?.kategori;
+        form.deskripsi = pelanggaran.deskripsi;
+        form.sanksi = pelanggaran.sanksi;
+        form.guru_id = pelanggaran?.guru?.nama;
+        form.jenis = pelanggaran.jenis;
+        form.mata_pelajaran_id = pelanggaran?.mata_pelajaran?.nama ?? '';
+        form.bukti_path = pelanggaran.bukti_path;
     };
 
     // Delete Modal Code

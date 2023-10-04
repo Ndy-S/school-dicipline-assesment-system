@@ -17,7 +17,7 @@ class Pelanggaran extends Model
         'id'
     ];
 
-    public function sop() {
+    public function s_o_p() {
         return $this->belongsTo(SOP::class);
     }
 
@@ -29,7 +29,7 @@ class Pelanggaran extends Model
         return $this->belongsTo(Guru::class);
     }
 
-    public function matapelajaran() {
+    public function mata_pelajaran() {
         return $this->belongsTo(MataPelajaran::class);
     }
 }

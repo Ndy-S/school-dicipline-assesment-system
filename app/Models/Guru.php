@@ -20,7 +20,7 @@ class Guru extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function mataPelajarans() {
+    public function mata_pelajarans() {
         return $this->hasMany(MataPelajaran::class);
     }
 

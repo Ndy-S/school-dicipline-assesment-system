@@ -26,16 +26,6 @@
                     menuIcon="chart-line"
                 />
                 <NavMenu 
-                    menuName="Pelanggaran Siswa"
-                    menuLink="pelanggaran"
-                    menuIcon="person-circle-exclamation"
-                />
-                <NavMenu 
-                    menuName="SOP & Peraturan"
-                    menuLink="sop"
-                    menuIcon="scale-balanced"
-                />
-                <NavMenu 
                     menuName="Siswa"
                     menuLink="siswa"
                     menuIcon="graduation-cap"
@@ -49,6 +39,16 @@
                     menuName="Mata Pelajaran"
                     menuLink="matapelajaran"
                     menuIcon="book"
+                />
+                <NavMenu 
+                    menuName="SOP & Peraturan"
+                    menuLink="sop"
+                    menuIcon="scale-balanced"
+                />
+                <NavMenu 
+                    menuName="Pelanggaran Siswa"
+                    menuLink="pelanggaran"
+                    menuIcon="person-circle-exclamation"
                 />
                 <NavMenu
                     menuName="Data User"

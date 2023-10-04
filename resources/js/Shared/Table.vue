@@ -58,8 +58,17 @@
                                 <span v-else-if="oneTableHead === 'orang tua' || oneTableHead === 'akun guru'">
                                     {{ oneTableData?.user?.nama ? `${oneTableData.user.nama} (${oneTableData.user.token || '-'})` : '-' }}
                                 </span>
-                                <span v-else-if="oneTableHead === 'guru mata pelajaran'">
-                                    {{ oneTableData?.guru?.nama ?? '-' }}
+                                <span v-else-if="oneTableHead === 'guru mata pelajaran' || oneTableHead === 'guru'">
+                                    {{ oneTableData?.guru?.nama ? `${oneTableData.guru.nama} (${oneTableData.guru.nip || '-'})` : '-' }}
+                                </span>
+                                <span v-else-if="oneTableHead === 'siswa'">
+                                    {{ oneTableData?.siswa?.nama ? `${oneTableData.siswa.nama} (${oneTableData.siswa.nis || '-'})` : '-' }}
+                                </span>
+                                <span v-else-if="oneTableHead === 'kategori pelanggaran'">
+                                    {{ oneTableData?.s_o_p?.kategori ?? '-' }}
+                                </span>
+                                <span v-else-if="oneTableHead === 'mata pelajaran'">
+                                    {{ oneTableData?.mata_pelajaran?.nama ? `${oneTableData.mata_pelajaran.nama} (Kelas ${oneTableData.mata_pelajaran.kelas || '-'})` : '-' }}
                                 </span>
                                 <span v-else class="flex">{{ oneTableData[oneTableHead] ?? '-' }}</span>
                             </div>

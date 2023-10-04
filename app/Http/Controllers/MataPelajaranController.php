@@ -34,7 +34,10 @@ class MataPelajaranController extends Controller
             'mataPelajaranPaginate' => $mataPelajaranQuery->with('guru')->orderBy('created_at', 'desc')->paginate('10')->withQueryString(),
             'filters' => request()->all(['search', 'field', 'direction']),
             'historyQuery' => History::query()->where('nama_tabel', 'data mata pelajaran')->with('user')->orderBy('created_at', 'desc')->get(),
-            'guruQuery' => Guru::query()->get(),
+            'guruQuery' => Guru::query()->orderBy('nama', 'asc')->orderBy('nip', 'asc')->get()->map(function ($guru) {
+                $guru['label'] = $guru->nama. ' (' .$guru->nip . ')';
+                return $guru;
+            }),
         ]);
     }
 
@@ -77,7 +80,7 @@ class MataPelajaranController extends Controller
                 'nama_tabel' => 'data mata pelajaran',
                 'jenis' => 'tambah',
                 'nama_data' => $attributes['nama'],
-                'token_data' => $attributes['kelas'],
+                'token_data' => 'Kelas ' .$attributes['kelas'],
             ]);
 
             return back()->withInput();
@@ -99,7 +102,7 @@ class MataPelajaranController extends Controller
                 'nama_tabel' => 'data mata pelajaran',
                 'jenis' => 'ubah',
                 'nama_data' => $attributes['nama'],
-                'token_data' => $attributes['kelas'],
+                'token_data' => 'Kelas ' .$attributes['kelas'],
             ]);
 
             return back()->withInput();
@@ -119,7 +122,7 @@ class MataPelajaranController extends Controller
                 'nama_tabel' => 'data mata pelajaran',
                 'jenis' => 'hapus',
                 'nama_data' => $mataPelajaran->nama,
-                'token_data' => $mataPelajaran->kelas,
+                'token_data' => 'Kelas ' .$mataPelajaran->kelas,
             ]);
 
             return back();

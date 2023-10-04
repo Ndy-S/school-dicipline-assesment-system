@@ -87,9 +87,10 @@
                                 :options="createEditModalProp.vueselect"
                                 :placeholder="createEditModalProp.placeholder"
                                 v-model="form[createEditModalProp.name]"
-                                :label="createEditModalProp.name === 'sop_id' ? 'kategori' : 'nama'"
+                                label="label"
                                 track-by="id"
-                                class="border border-gray-300 text-gray-600 bg-white text-sm focus:ring-blue-500 focus:border-blue-500 block w-full"
+                                class="bg-gray-700 border border-gray-300 text-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full"
+                                :required="createEditModalProp.required"
                             />
 
                             <input 
@@ -122,7 +123,7 @@
                                         :name="createEditModalProp.radiobutton.radioname" 
                                         :value="createEditModalProp.radiobutton.radio1id"
                                         class="mr-1" 
-                                        checked 
+                                        required
                                         @click="showVselect = false"
                                     >
                                     <label :for="createEditModalProp.radiobutton.radio1id" class="mr-4">{{ createEditModalProp.radiobutton.radio1display }}</label>
@@ -142,9 +143,9 @@
                                     :options="createEditModalProp.radiovueselect"
                                     :placeholder="createEditModalProp.placeholder"
                                     v-model="form[createEditModalProp.name]"
-                                    label="nama"
+                                    label="label"
                                     track-by="id"
-                                    class="border border-gray-300 text-gray-600 bg-white text-sm focus:ring-blue-500 focus:border-blue-500 block w-full"
+                                    class="bg-gray-700 border border-gray-300 text-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full"
                                 />
                             </div>
                                     
@@ -263,3 +264,21 @@
     };
 
 </script>
+<style scoped>
+    >>> {
+    --vs-controls-color: #d1d5db;
+    --vs-border-color: #374151;
+
+    --vs-dropdown-bg: #1f2937;
+    --vs-dropdown-color: #cc99cd;
+    --vs-dropdown-option-color: #d1d5db;
+
+    --vs-selected-bg: #664cc3;
+    --vs-selected-color: #eeeeee;
+
+    --vs-search-input-color: #eeeeee;
+
+    --vs-dropdown-option--active-bg: #2c334e;
+    --vs-dropdown-option--active-color: #eeeeee;
+    }
+</style>
