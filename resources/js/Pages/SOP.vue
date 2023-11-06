@@ -60,7 +60,6 @@
         historyQuery: Object,
         can: Object,
     });
-    console.log(props.can.updateSOP)
     
     const commonColumns = ['kategori', 'deskripsi', 'sanksi', 'tanggal dibuat'];
 
