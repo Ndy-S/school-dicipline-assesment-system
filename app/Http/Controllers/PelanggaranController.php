@@ -78,6 +78,7 @@ class PelanggaranController extends Controller
                 'id',
                 'deskripsi',
                 'sanksi',
+                'tglPelanggaran',
                 'mata_pelajaran_id',
             ];
 

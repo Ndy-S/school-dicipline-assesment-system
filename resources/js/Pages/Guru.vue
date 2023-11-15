@@ -61,7 +61,7 @@
     });
 
 
-    const commonColumns = ['nama', 'nip', 'gender', 'piket', 'akun guru', 'alamat', 'handphone', 'tanggal dibuat'];
+    const commonColumns = ['nama', 'nip', 'gender', 'piket', 'akun guru', 'jabatan', 'pendidikan', 'alamat', 'handphone', 'tanggal dibuat'];
 
     const tableProps = {
         tableHead: props.can.createGuru ? ['aksi', ...commonColumns] : commonColumns,
@@ -81,6 +81,8 @@
         nip: '',
         gender: '',
         piket: '',
+        jabatan: '',
+        pendidikan: '',
         alamat: '',
         handphone: '',
         user_id: '',
@@ -204,6 +206,18 @@
             placeholder: 'Pilih akun guru'
         },
         {
+            name: 'jabatan',
+            display: 'Jabatan',
+            type: 'string',
+            placeholder: 'Kepala Sekolah',
+        },
+        {
+            name: 'pendidikan',
+            display: 'Pendidikan Terakhir',
+            type: 'string',
+            placeholder: 'SMA'
+        },
+        {
             name: 'alamat',
             display: 'Alamat',
             type: 'string',
@@ -232,6 +246,8 @@
         form.nip = guru.nip;
         form.gender = guru.gender;
         form.piket = guru.piket ?? '';
+        form.jabatan = guru.jabatan;
+        form.pendidikan = guru.pendidikan;
         form.alamat = guru.alamat;
         form.handphone = guru.handphone;
         form.user_id = guru?.user?.nama;
@@ -245,6 +261,8 @@
         form.nip = guru.nip;
         form.gender = guru.gender;
         form.piket = guru.piket ?? '';
+        form.jabatan = guru.jabatan;
+        form.pendidikan = guru.pendidikan;
         form.alamat = guru.alamat ?? '';
         form.handphone = guru.handphone ?? '';
         form.user_id = guru?.user?.nama ?? '';

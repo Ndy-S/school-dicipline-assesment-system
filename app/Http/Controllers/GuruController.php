@@ -68,6 +68,8 @@ class GuruController extends Controller
 
             $nullableFields = [
                 'piket',
+                'jabatan',
+                'pendidikan',
                 'alamat',
                 'handphone',
                 'id',

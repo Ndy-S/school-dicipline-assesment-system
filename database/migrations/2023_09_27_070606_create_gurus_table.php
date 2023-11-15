@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('nip')->unique();
             $table->enum('gender', ['Laki-laki', 'Perempuan']);
             $table->enum('piket', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'])->nullable();
+            $table->string('jabatan')->nullable();
+            $table->string('pendidikan')->nullable();
             $table->text('alamat')->nullable();
             $table->string('handphone')->nullable();
             $table->foreignIdFor(User::class)->nullable()->cascadeOnUpdate();

@@ -1,7 +1,7 @@
 <template>
     <Layout :can="can">
-        <div class="mx-auto w-[90%] flex h-[45%] justify-between">
-            <div class="w-[45%] mt-4 p-4 px-8 bg-neon-custom-color rounded-lg shadow-2xl font-mono flex flex-col justify-center items-center">
+        <div class="mx-auto w-[90%] flex h-[45%] justify-evenly">
+            <div class="w-[40%] mt-4 p-4 px-8 bg-neon-custom-color rounded-lg shadow-2xl font-mono flex flex-col justify-center items-center">
                 <div class="text-white">
                     <h5 class="text-2xl font-bold mb-3 text-center">Jadwal Piket: <span class="text-yellow-400 underline">{{ currentDay }}</span></h5>
                     <table class="table-auto m-auto">
@@ -22,7 +22,7 @@
                     </table>
                 </div>
             </div>
-            <div class="w-[45%] mt-4 p-4 px-8 gap-8 bg-neon-custom-color rounded-lg shadow-2xl font-mono flex flex-col justify-center items-center" v-if="can.createPelanggaran">
+            <div class="w-[40%] mt-4 p-4 px-8 bg-neon-custom-color rounded-lg shadow-2xl font-mono flex flex-col justify-center items-center" v-if="can.createPelanggaran">
                 <div class="text-white items-center mx-auto justify-center flex">
                     <h1 class="text-4xl font-bold text-center">Pelanggaran Siswa</h1>
                 </div>

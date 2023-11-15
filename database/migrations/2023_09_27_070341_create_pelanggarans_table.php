@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(SOP::class)->nullOnDelete()->cascadeOnUpdate();
             $table->text('deskripsi')->nullable();
             $table->string('sanksi')->nullable();
+            $table->string('tglPelanggaran')->nullable();
             $table->foreignIdFor(Guru::class)->nullOnDelete()->cascadeOnUpdate();
             $table->enum('jenis', ['Kelas', 'Sekolah']);
             $table->foreignIdFor(MataPelajaran::class)->nullable()->cascadeOnUpdate();

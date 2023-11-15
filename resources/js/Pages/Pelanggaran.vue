@@ -63,7 +63,7 @@
         can: Object,
     });
 
-    const commonColumns = [ 'siswa', 'kategori pelanggaran', 'deskripsi', 'sanksi', 'guru', 'jenis', 'mata pelajaran', 'bukti dokumentasi' ,'tanggal dibuat'];
+    const commonColumns = [ 'siswa', 'kategori pelanggaran', 'deskripsi', 'sanksi', 'tglPelanggaran', 'guru', 'jenis', 'mata pelajaran', 'bukti dokumentasi' ,'tanggal dibuat'];
 
     const tableProps = {
         tableHead: props.can.createPelanggaran ? ['aksi', ...commonColumns] : commonColumns,
@@ -83,6 +83,7 @@
         s_o_p_id: '',
         deskripsi: '',
         sanksi: '',
+        tglPelanggaran: '',
         guru_id: '',
         jenis: '',
         mata_pelajaran_id: '',
@@ -189,6 +190,12 @@
             placeholder: 'Peringatan terhadap siswa',
         },
         {
+            name: 'tglPelanggaran',
+            display: 'Tanggal Pelanggaran',
+            type: 'string',
+            placeholder: '20 Januari 2023',
+        },
+        {
             vueselect: props.guruQuery,
             name: 'guru_id',
             display: 'Guru',
@@ -230,6 +237,7 @@
         form.s_o_p_id = pelanggaran?.s_o_p?.kategori;
         form.deskripsi = pelanggaran.deskripsi;
         form.sanksi = pelanggaran.sanksi;
+        form.tglPelanggaran = pelanggaran.tglPelanggaran;
         form.guru_id = pelanggaran?.guru?.nama;
         form.jenis = pelanggaran.jenis;
         form.mata_pelajaran_id = pelanggaran?.mata_pelajaran?.nama ?? '';
@@ -244,6 +252,7 @@
         form.s_o_p_id = pelanggaran?.s_o_p?.kategori;
         form.deskripsi = pelanggaran.deskripsi;
         form.sanksi = pelanggaran.sanksi;
+        form.tglPelanggaran = pelanggaran.tglPelanggaran;
         form.guru_id = pelanggaran?.guru?.nama;
         form.jenis = pelanggaran.jenis;
         form.mata_pelajaran_id = pelanggaran?.mata_pelajaran?.nama ?? '';
