@@ -35,31 +35,37 @@ Install JavaScript dependencies using npm:
 npm install
 ```
 
-### 4. Create Environment File
+### 4. Install Vite
+Install vite using npm:
+```
+npm install --save-dev vite
+```
+
+### 5. Create Environment File
 Copy the .env.example file to .env:
 ```
 cp .env.example .env
 ```
 
-### 5. Generate Application Key
+### 6. Generate Application Key
 Generate a new application key by running:
 ```
 php artisan key:generate
 ```
 
-### 6. Database Migration
+### 7. Database Migration
 Migrate the database tables using the following command:
 ```
 php artisan migrate
 ```
 
-### 7. Database Seeding
+### 8. Database Seeding
 If you have seeders set up, populate the database with initial data:
 ```
 php artisan db:seed
 ```
 
-### 8. Compile Assets
+### 9. Compile Assets
 ```
 npm run dev
 ```
