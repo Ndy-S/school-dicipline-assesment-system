@@ -1,16 +1,16 @@
-# School Discipline Assessment System
-The School Discipline Assessment System is a web application designed for teachers to assess student discipline scores and apply penalties when students violate rules. The system streamlines the process of tracking student behavior and maintaining disciplinary records.
+# Student Discipline Assessment
+The **Student Discipline Assessment System** is a web application built using Laravel for the backend and Vue.js for the frontend. It allows teachers to assess student discipline scores and apply penalties for rule violations, streamlining the tracking of student behavior and maintaining disciplinary records.
 
 <img src="https://github.com/Ndy-S/school-dicipline-assesment-system/blob/main/public/img/overview.png" alt="Project Overview">
 
 ## Prerequisites
-Before setting up the project, ensure that you have the following software installed on your system:
-- Apache
-- PHP
-- Database: MySQL
-- Composer: Download from [getcomposer.org](https://getcomposer.org)
-- Node.js: Download from [nodejs.org](https://nodejs.org)
-- npm
+Before setting up the project, ensure you have the following software installed on your system:
+- **Apache**
+- **PHP**
+- **Database**: MySQL
+- **Composer**: Download from [getcomposer.org](https://getcomposer.org)
+- **Node.js**: Download from [nodejs.org](https://nodejs.org)
+- **npm**
 
 ## Setup Instructions
 1. **Copy the Project**
@@ -22,7 +22,7 @@ Before setting up the project, ensure that you have the following software insta
     ```
     composer global require laravel/installer
     ```
-3. **Install PHP Dependencies** To update dependencies later, use `composer update`.
+3. **Install PHP Dependencies** <br>To update dependencies later, use `composer update`.
     ```
     composer install
     ```
@@ -46,7 +46,7 @@ Before setting up the project, ensure that you have the following software insta
     ```
     php artisan migrate
     ```
-9. **Database Seeding** If you have seeders set up, populate the database with initial data:
+9. **Database Seeding** <br>If you have seeders set up, populate the database with initial data:
     ```
     php artisan db:seed
     ```
@@ -57,8 +57,8 @@ Before setting up the project, ensure that you have the following software insta
 
 ## Starter Account
 You can use the following credentials to access the starter account:
-- **Token**: 0000
-- **Password**: 0000
+- **Token**: `0000`
+- **Password**: `0000`
 
 ## License
 MIT
